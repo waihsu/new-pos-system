@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model addon_categories {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  product_id String @db.ObjectId
+}
+
+model addons {
+  id                String @id @default(auto()) @map("_id") @db.ObjectId
+  addon_category_id String @db.ObjectId
+  name              String
+  price             String
+}
+
+model categories {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  location_id String @db.ObjectId
+  name        String
+}
+
+model companies {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+}
+
+model locations {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  address String
+  name    String
+  user_id String @db.ObjectId
+}
+
+model locations_categories_products {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  category_id String @db.ObjectId
+  location_id String @db.ObjectId
+  product_id  String @db.ObjectId
+}
+
+model products {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  asset_url   String
+  description String
+  name        String
+  price       String
+  rating      String
+  stock       String
+}
+
+model users {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  companies_id String @db.ObjectId
+  email        String @unique
+  password     String
+  username     String
+}

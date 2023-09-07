@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model companies {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  users users[]
+}
+
+model users {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  email        String @unique
+  password     String
+  username     String
+  companies  companies    @relation(fields: [companies_id], references: [id])
+  companies_id String @db.ObjectId
+  locations locations[]
+}
+
+model locations {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  address String
+  name    String
+  type String // clothes/ foodes/ electronic / phone
+  users users @relation(fields: [user_id], references: [id])
+  user_id String @db.ObjectId
+  locations_categories locations_categories[]
+}
+
+model addon_categories {
+  id         String @id @default(auto()) @map("_id") @db.ObjectId
+  name       String
+  product_id String @db.ObjectId
+  products products @relation(fields: [product_id], references: [id])
+  addons addons[]
+}
+
+model addons {
+  id                String @id @default(auto()) @map("_id") @db.ObjectId
+  addon_categories addon_categories @relation(fields: [addon_category_id], references: [id])
+  addon_category_id String @db.ObjectId
+  name              String
+  price             String
+}
+
+model categories {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  products products[]
+  locations_categories locations_categories[]
+}
+
+
+model locations_categories {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  category_id String @db.ObjectId
+  location_id String @db.ObjectId
+  categories categories @relation(fields: [category_id], references: [id])
+  locations locations @relation(fields: [location_id], references: [id])
+}
+
+model products {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  asset_url   String
+  description String
+  name        String
+  price       String
+  rating      String
+  stock String
+  categories categories @relation(fields: [category_id], references: [id])
+  category_id String[] @db.ObjectId
+  addon_categories addon_categories[]
+}
