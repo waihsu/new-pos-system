@@ -46,6 +46,10 @@ export default function EditProduct({
 
   const handleClick = async () => {
     setIsLoading(true);
+    if (!productImage) {
+      setIsLoading(false);
+      return alert("please upload photo");
+    }
     const asset_url = await uploadImage(productImage as File);
 
     // if (asset_url.length) {

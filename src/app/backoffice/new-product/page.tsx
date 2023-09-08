@@ -2,10 +2,10 @@ import BackOfficeLayout from "@/components/BackOfficeLayout";
 import React from "react";
 import NewProductFrom from "./NewProductFrom";
 import { getCategoriesBySelectedLocation } from "@/lib/server";
-import { getLocationIds } from "@/app/actions";
+import { getLocationId } from "@/app/actions";
 
 export default async function NewProduct() {
-  const locations_id = await getLocationIds();
+  const locations_id = await getLocationId();
   const categories = await getCategoriesBySelectedLocation(locations_id);
   console.log(locations_id);
   console.log(categories);

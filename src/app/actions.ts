@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 
-export async function getLocationIds() {
+export async function getLocationId() {
   const cookieStore = cookies();
 
   const locations_id = cookieStore.get("selectedLocationId")?.value as string;

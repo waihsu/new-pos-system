@@ -31,6 +31,7 @@ export default function NewLocation({
   const [newLocation, setNewLocation] = useState({
     name: "",
     address: "",
+    asset_url: "",
     user_id: user_id,
   });
   useEffect(() => {

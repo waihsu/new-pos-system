@@ -1,18 +1,19 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
-import { getLocations } from "@/lib/server";
+
 import { cookies } from "next/headers";
-import { users } from "@prisma/client";
+import { locations, users } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import React from "react";
 
 import { Box } from "@mui/material";
 import NewLocation from "./newLocation";
+import { getLocationsByUserId } from "@/lib/server";
 
 export default async function page() {
   const session = await getServerSession(authOptions);
   const user = session?.user as users;
   const user_id = user.id as string;
-  const locations = await getLocations(user_id);
+  const locations = (await getLocationsByUserId(user_id)) as locations[];
 
   const cookiesStore = cookies();
   const selectedLocationId = cookiesStore.get("selectedLocationId")

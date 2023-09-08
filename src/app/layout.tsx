@@ -24,7 +24,7 @@ export default function RootLayout({
           <Box position={"absolute"} top={"0"} style={{ zIndex: 10 }}>
             <Navbar />
           </Box>
-          {children}
+          <Box style={{ paddingTop: 80 }}>{children}</Box>
         </Theme>
       </body>
     </html>

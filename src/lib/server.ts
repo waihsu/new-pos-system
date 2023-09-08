@@ -3,6 +3,11 @@ import { prisma } from ".";
 import { supabase } from "./supabase";
 import { cookies } from "next/headers";
 
+export const getLocations = async () => {
+  const locations = await prisma.locations.findMany();
+  return locations;
+};
+
 export const getProducts = async (location_id: string) => {
   const locations_categories_products =
     await prisma.locations_categories_products.findMany({
@@ -19,7 +24,7 @@ export const getProducts = async (location_id: string) => {
   return products;
 };
 
-export const getLocations = async (user_id: string) => {
+export const getLocationsByUserId = async (user_id: string) => {
   const locations = await prisma.locations.findMany({
     select: {
       id: true,
