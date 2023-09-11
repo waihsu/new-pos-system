@@ -22,13 +22,15 @@ export default function ProductCard({
               align="center"
               justify="center"
               style={{ background: "#24292F" }}>
-              <Image
-                src={asset_url}
-                alt="product"
-                layout="responsive"
-                width={200}
-                height={200}
-              />
+              <Box style={{ width: "100%" }}>
+                <Image
+                  src={asset_url}
+                  alt="product"
+                  layout="responsive"
+                  width={0}
+                  height={0}
+                />
+              </Box>
             </Flex>
           </Inset>
 

@@ -19,12 +19,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className} suppressHydrationWarning>
+      <body
+        style={{
+          background:
+            "linear-gradient(90deg, rgba(255,89,0,1) 0%, rgba(255,141,0,1) 100%)",
+        }}
+        className={inter.className}
+        suppressHydrationWarning>
         <Theme>
-          <Box position={"absolute"} top={"0"} style={{ zIndex: 10 }}>
+          {/* <Box position={"absolute"} top={"0"} style={{ zIndex: 10 }}>
             <Navbar />
-          </Box>
-          <Box style={{ paddingTop: 80 }}>{children}</Box>
+          </Box> */}
+          {children}
         </Theme>
       </body>
     </html>

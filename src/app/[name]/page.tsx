@@ -1,14 +1,21 @@
-import ProductCategoriesTabs from "@/app/[id]/ProductCategoriesTabs";
+import ProductCategoriesTabs from "@/app/[name]/ProductCategoriesTabs";
+import ShopLayout from "@/components/ShopLayout";
+
 import { prisma } from "@/lib";
 import { getCategoriesBySelectedLocation } from "@/lib/server";
+import { locations } from "@prisma/client";
 import React from "react";
 
 export default async function page({ params }: { params: string }) {
-  const { id }: any = params;
-  console.log(id);
+  const { name }: any = params;
+  console.log("name", name);
+  const locations = (await prisma.locations.findUnique({
+    where: { name: name },
+  })) as locations;
+  const locationId = locations.id;
   const locations_categories_products =
     await prisma.locations_categories_products.findMany({
-      where: { location_id: id },
+      where: { location_id: locationId },
     });
   const categoriesIds = locations_categories_products.map(
     (item) => item.category_id
@@ -22,16 +29,15 @@ export default async function page({ params }: { params: string }) {
   const products = await prisma.products.findMany({
     where: { id: { in: productsIds } },
   });
-  console.log("catego", categoriesIds);
-  console.log("produ", productsIds);
+
   return (
-    <div>
-      {" "}
+    <ShopLayout locations={locations}>
       <ProductCategoriesTabs
+        name={name}
         locations_categories_products={locations_categories_products}
         categories={categories}
         products={products}
       />
-    </div>
+    </ShopLayout>
   );
 }

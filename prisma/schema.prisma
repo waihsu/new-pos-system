@@ -7,6 +7,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+type OrdersCart {
+  product_id String @db.ObjectId
+}
+
 model addon_categories {
   id         String @id @default(auto()) @map("_id") @db.ObjectId
   name       String
@@ -32,11 +36,12 @@ model companies {
 }
 
 model locations {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  address String
-  name    String
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  address   String
   asset_url String
-  user_id String @db.ObjectId
+  name      String  @unique
+  phone     String
+  user_id   String @db.ObjectId
 }
 
 model locations_categories_products {
@@ -44,6 +49,16 @@ model locations_categories_products {
   category_id String @db.ObjectId
   location_id String @db.ObjectId
   product_id  String @db.ObjectId
+}
+
+model orders {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  cart        OrdersCart[]
+  location_id String       @db.ObjectId
+  orderDate   DateTime
+  status      String
+  total       String
+  user_id     String       @db.ObjectId
 }
 
 model products {
@@ -57,14 +72,9 @@ model products {
 }
 
 model users {
-  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
   companies_id String? @db.ObjectId
-  email        String @unique
+  email        String  @unique
+  role         String
   username     String
-  role         role   @default(User)
-}
-
-enum role {
-  Admin
-  User
 }

@@ -8,7 +8,7 @@ export default function ShopCard({ locations }: { locations: locations[] }) {
   return (
     <Box style={{ display: "flex", gap: 2 }}>
       {locations.map((location) => (
-        <Link key={location.id} href={location.id}>
+        <Link key={location.id} href={location.name}>
           <Card style={{ maxWidth: 300 }}>
             <Flex direction={"column"} gap="3" align="center">
               <Image

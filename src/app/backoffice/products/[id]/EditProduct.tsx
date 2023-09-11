@@ -36,13 +36,12 @@ export default function EditProduct({
     price: product.price,
     rating: product.rating,
     stock: product.rating,
-    categories_id: [] as string[],
+    categories_id: productBycategories.map((item) => item.id),
   });
   const [productImage, setProductImage] = useState<File>();
   const selectedFile = (files: File[]) => {
     setProductImage(files[0]);
   };
-  // console.log(productImage);
 
   const handleClick = async () => {
     setIsLoading(true);
@@ -76,6 +75,7 @@ export default function EditProduct({
     router.refresh();
     router.push("/backoffice/products");
   };
+  console.log(updateProduct);
 
   return (
     <Box>
