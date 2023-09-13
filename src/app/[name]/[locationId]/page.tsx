@@ -1,18 +1,20 @@
-import ProductCategoriesTabs from "@/app/[name]/ProductCategoriesTabs";
 import ShopLayout from "@/components/ShopLayout";
 
 import { prisma } from "@/lib";
 import { getCategoriesBySelectedLocation } from "@/lib/server";
 import { locations } from "@prisma/client";
 import React from "react";
+import ProductCategoriesTabs from "./ProductCategoriesTabs";
+import { Box } from "@mui/material";
+import Image from "next/image";
 
 export default async function page({ params }: { params: string }) {
-  const { name }: any = params;
-  console.log("name", name);
+  const { name, locationId }: any = params;
+  console.log("name", name, "locationId", locationId);
   const locations = (await prisma.locations.findUnique({
-    where: { name: name },
+    where: { id: locationId },
   })) as locations;
-  const locationId = locations.id;
+
   const locations_categories_products =
     await prisma.locations_categories_products.findMany({
       where: { location_id: locationId },
@@ -31,13 +33,26 @@ export default async function page({ params }: { params: string }) {
   });
 
   return (
-    <ShopLayout locations={locations}>
-      <ProductCategoriesTabs
-        name={name}
-        locations_categories_products={locations_categories_products}
-        categories={categories}
-        products={products}
-      />
-    </ShopLayout>
+    <Box>
+      <Box sx={{ width: "100vw", height: 500 }}>
+        <Image
+          src={locations?.asset_url}
+          alt="banner"
+          sizes="100vw"
+          style={{ width: "100%", height: "100%" }}
+          width={0}
+          height={0}
+        />
+      </Box>
+      <ShopLayout locations={locations}>
+        <ProductCategoriesTabs
+          name={name}
+          locationId={locationId}
+          locations_categories_products={locations_categories_products}
+          categories={categories}
+          products={products}
+        />
+      </ShopLayout>
+    </Box>
   );
 }

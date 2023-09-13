@@ -4,6 +4,7 @@ import Navbar from "./Navbar";
 import { locations } from "@prisma/client";
 import Image from "next/image";
 import Footer from "./Footer";
+import AboutCard from "./AboutCard";
 
 export default function ShopLayout({
   locations,
@@ -13,19 +14,26 @@ export default function ShopLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Box position={"relative"}>
-      <Navbar name={locations.name} />
-      <Box sx={{ width: "100vw", height: 500 }}>
-        <Image
-          src={locations.asset_url}
-          alt="banner"
-          sizes="100vw"
-          style={{ width: "100%", height: "100%" }}
-          width={0}
-          height={0}
-        />
+    <Box
+      position={"relative"}
+      sx={{
+        background:
+          "linear-gradient(90deg, rgba(255,89,0,1) 0%, rgba(255,141,0,1) 100%)",
+      }}>
+      <Navbar name={locations?.name} />
+
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-around",
+          py: 14,
+          // alignItems: "center",
+        }}>
+        {children}
+        <Box>
+          <AboutCard location={locations} />
+        </Box>
       </Box>
-      {children}
       <Footer locations={locations} />
     </Box>
   );

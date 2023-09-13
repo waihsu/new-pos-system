@@ -12,6 +12,15 @@ export interface Cart {
   quantity: string;
 }
 
+export async function addShopId(location_id: string) {
+  cookies().set("locationId", location_id);
+}
+
+export async function getShopId() {
+  const locationId = cookies().get("locationId");
+  return locationId;
+}
+
 export async function getLocationId() {
   const cookieStore = cookies();
 
@@ -85,4 +94,8 @@ export async function deleteCartItem(productId: string) {
   const validCart = data.filter((item) => item.id !== productId);
   console.log(validCart);
   cookies().set("cart", JSON.stringify(validCart));
+}
+
+export async function delectcart() {
+  cookies().delete("cart");
 }

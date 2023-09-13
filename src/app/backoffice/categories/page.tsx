@@ -14,7 +14,7 @@ export default async function page() {
   return (
     <Box>
       <NewCategory location_id={location_id} />
-      <Box sx={{ display: "flex", gap: 2 }}>
+      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
         {categories.map((category) => (
           <Box key={category.id} sx={{ width: 200, height: 200 }}>
             <ItemCard icon={<BiSolidCategoryAlt />} name={category.name} />

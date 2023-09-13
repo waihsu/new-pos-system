@@ -40,7 +40,7 @@ const sidebarItems = [
     id: 6,
     label: "Site Settings",
     icon: <AiFillSetting />,
-    route: "/backoffice/siteSettings",
+    route: "/backoffice/site-settings",
   },
   {
     id: 7,

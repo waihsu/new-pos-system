@@ -4,6 +4,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";
+import Provider from "./provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,19 +20,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        style={{
-          background:
-            "linear-gradient(90deg, rgba(255,89,0,1) 0%, rgba(255,141,0,1) 100%)",
-        }}
-        className={inter.className}
-        suppressHydrationWarning>
-        <Theme>
-          {/* <Box position={"absolute"} top={"0"} style={{ zIndex: 10 }}>
+      <body className={inter.className} suppressHydrationWarning>
+        <Provider>
+          <Theme>
+            {/* <Box position={"absolute"} top={"0"} style={{ zIndex: 10 }}>
             <Navbar />
           </Box> */}
-          {children}
-        </Theme>
+            {children}
+          </Theme>
+        </Provider>
       </body>
     </html>
   );

@@ -37,7 +37,7 @@ export default function layout({ children }: Props) {
         }}>
         <Box
           style={{
-            maxWidth: "90%",
+            maxWidth: 800,
             minHeight: "100vh",
             margin: "auto",
             marginTop: 90,

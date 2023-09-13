@@ -7,3 +7,20 @@ export async function POST(req: NextRequest) {
   const createdLocation = await prisma.locations.create({ data: newLocation });
   return NextResponse.json({ createdLocation });
 }
+
+export async function PUT(req: NextRequest) {
+  const { id, name, address, asset_url, phone, user_id } = await req.json();
+  const updateShop = await prisma.locations.update({
+    where: {
+      id: id,
+    },
+    data: {
+      name,
+      address,
+      asset_url,
+      phone,
+      user_id,
+    },
+  });
+  return NextResponse.json({ updateShop });
+}

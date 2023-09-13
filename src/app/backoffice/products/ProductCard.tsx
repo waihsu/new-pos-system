@@ -15,7 +15,13 @@ export default function ProductCard({
 }: products) {
   return (
     <Box style={{ width: 200 }}>
-      <Card size="2">
+      <Card
+        size="2"
+        style={{
+          maxHeight: 400,
+          backgroundColor: "transparent",
+          boxShadow: "0px 5px 10px 8px rgba(0, 0, 0, 0.5)",
+        }}>
         <Flex direction={"column"} gap={"5"}>
           <Inset side="all" mb={"4"}>
             <Flex
@@ -26,16 +32,17 @@ export default function ProductCard({
                 <Image
                   src={asset_url}
                   alt="product"
-                  layout="responsive"
-                  width={0}
-                  height={0}
+                  layout="cover"
+                  // objectFit="contain"
+                  width={200}
+                  height={200}
                 />
               </Box>
             </Flex>
           </Inset>
 
           <Flex direction={"column"} gap={"2"} style={{ maxWidth: 400 }}>
-            <Text weight={"bold"} color="gray" size="5">
+            <Text weight={"bold"} style={{ color: "#92ca43" }} size="5">
               {name}
             </Text>
             <Text color="gray" size="2">

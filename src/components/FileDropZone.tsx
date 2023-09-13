@@ -39,7 +39,7 @@ export default function FileDropZone({ selectedFile }: Props) {
         }}>
         <input {...getInputProps()} />
         <Box sx={{ fontSize: 40 }}>
-          <Heading size={"3"}>Drag & drop product image here</Heading>
+          <Heading size={"3"}> image here</Heading>
           <BiSolidFilePlus />
         </Box>
       </Box>

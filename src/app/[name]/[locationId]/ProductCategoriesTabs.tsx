@@ -6,7 +6,7 @@ import {
 } from "@prisma/client";
 import { Box, Button, Tabs, Text } from "@radix-ui/themes";
 import React, { useEffect, useState } from "react";
-import ProductCard from "../backoffice/products/ProductCard";
+import ProductCard from "../../backoffice/products/ProductCard";
 import Link from "next/link";
 
 export default function ProductCategoriesTabs({
@@ -14,7 +14,9 @@ export default function ProductCategoriesTabs({
   categories,
   locations_categories_products,
   name,
+  locationId,
 }: {
+  locationId: string;
   name: string;
   products: products[];
   categories: categories[];
@@ -29,11 +31,11 @@ export default function ProductCategoriesTabs({
     selectedCategoryIddProductIds.includes(item.id)
   );
 
-  if (!name) return null;
+  if (!name && !locationId) return null;
 
   return (
-    <Box style={{ minHeight: 600 }} my="9">
-      <Tabs.Root defaultValue="all" style={{ maxWidth: 900 }} mx={"auto"}>
+    <Box style={{ maxWidth: 900 }}>
+      <Tabs.Root defaultValue="all" style={{ minWidth: 900 }} mx={"auto"}>
         <Tabs.List>
           <Tabs.Trigger value="all">All</Tabs.Trigger>
           {categories.map((item) => (
@@ -48,12 +50,25 @@ export default function ProductCategoriesTabs({
 
         <Box
           px="4"
-          pt={"3"}
+          pt={"5"}
           pb="2"
-          style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+          style={{
+            display: "flex",
+            justifyContent: "space-evenly",
+            gap: 14,
+            flexWrap: "wrap",
+            minHeight: 600,
+            paddingBottom: 80,
+            backgroundColor:
+              "linear-gradient(90deg, rgba(255,89,0,1) 0%, rgba(255,141,0,1) 100%)",
+            boxShadow: "0px 0px 40px 10px rgba(0, 0, 0, 0.5)",
+          }}>
           {products.map((item) => (
             <Tabs.Content value="all" key={item.id}>
-              <Link href={`/${name}/${item.id}`} key={item.id}>
+              <Link
+                style={{ textDecoration: "none" }}
+                href={`/${name}/${locationId}/${item.id}`}
+                key={item.id}>
                 <ProductCard
                   id={item.id}
                   name={item.name}
@@ -68,7 +83,10 @@ export default function ProductCategoriesTabs({
           ))}
           {selectedCategoryIdsByProducts.map((item) => (
             <Tabs.Content value={selectCategoryId as string} key={item.id}>
-              <Link href={`/${name}/${item.id}`} key={item.id}>
+              <Link
+                style={{ textDecoration: "none" }}
+                href={`/${name}/${locationId}/${item.id}`}
+                key={item.id}>
                 <ProductCard
                   id={item.id}
                   name={item.name}

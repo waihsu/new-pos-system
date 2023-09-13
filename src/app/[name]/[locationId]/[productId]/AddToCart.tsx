@@ -3,9 +3,15 @@ import React, { useEffect, useState } from "react";
 import { Box, Button, Card, Flex, Text } from "@radix-ui/themes";
 import { orders, products } from "@prisma/client";
 import Image from "next/image";
-import { Cart, addToCart, getCart } from "@/app/actions";
+import { Cart, addShopId, addToCart, getCart } from "@/app/actions";
 
-export default function AddToCart({ product }: { product: products }) {
+export default function AddToCart({
+  product,
+  locationId,
+}: {
+  product: products;
+  locationId: string;
+}) {
   const [quantity, setQuantity] = useState<number>(1);
   const [added, setAdded] = useState(false);
 
@@ -47,7 +53,7 @@ export default function AddToCart({ product }: { product: products }) {
   };
 
   const handleAddToCart = async () => {
-    console.log(quantity);
+    await addShopId(locationId);
     await addToCart({
       id: product.id,
       name: product.name,
@@ -68,6 +74,9 @@ export default function AddToCart({ product }: { product: products }) {
             {product.name}
           </Text>
           <Text as="div" size="2" color="gray">
+            {product.description}
+          </Text>
+          <Text as="div" size="2" color="gray">
             {product.price}
           </Text>
           <Flex>
@@ -76,7 +85,6 @@ export default function AddToCart({ product }: { product: products }) {
             ) : (
               <Button
                 onClick={() => {
-                  setQuantity(quantity + 1);
                   handleAddToCart();
                 }}>
                 Add To Cart

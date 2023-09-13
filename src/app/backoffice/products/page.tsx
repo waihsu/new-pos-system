@@ -25,26 +25,24 @@ export default async function Products() {
         <ProductSearch />
       </Box>
 
-      <Grid columns="4" gap="3" width="auto">
+      <Box style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
         {products.map((product) => (
           <Link
             href={`/backoffice/products/${product.id}`}
             key={product.id}
             style={{ textDecoration: "none" }}>
-            <Box>
-              <ProductCard
-                id={product.id}
-                name={product.name}
-                asset_url={product.asset_url}
-                description={product.description}
-                price={product.price}
-                stock={product.stock}
-                rating={product.rating}
-              />
-            </Box>
+            <ProductCard
+              id={product.id}
+              name={product.name}
+              asset_url={product.asset_url}
+              description={product.description}
+              price={product.price}
+              stock={product.stock}
+              rating={product.rating}
+            />
           </Link>
         ))}
-      </Grid>
+      </Box>
     </BackOfficeLayout>
   );
 }

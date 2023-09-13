@@ -7,8 +7,6 @@ import { getLocations } from "@/lib/server";
 import { Divider } from "@mui/material";
 
 export default async function Home() {
-  const session = await getServerSession(authOptions);
-  console.log(session?.user);
   const locations = await getLocations();
   return (
     <div style={{ paddingTop: 80 }}>

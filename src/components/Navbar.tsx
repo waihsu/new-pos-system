@@ -1,27 +1,36 @@
 "use client";
-import { Button } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
-import { Box, Flex, Heading, TextField } from "@radix-ui/themes";
+import { Flex, Heading, TextField } from "@radix-ui/themes";
 import React, { useState } from "react";
 import CartDrawer from "./CartDrawer";
 
 export default function Navbar({ name }: { name: string }) {
   const [open, setOpen] = useState(false);
   return (
-    <Flex
-      justify={"between"}
-      width={"100%"}
-      py={"4"}
-      style={{
+    <Box
+      sx={{
+        minWidth: "100vw",
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
         background:
           "linear-gradient(90deg, rgba(250,126,60,1) 0%, rgba(255,147,14,1) 100%)",
         boxShadow: "0px 5px 10px 0px rgba(0, 0, 0, 0.5)",
-        minWidth: "100vw",
         position: "fixed",
+        zIndex: 10,
         top: 0,
         left: 0,
+        py: 2,
+      }}
+      style={{
+        boxShadow: "0px 5px 10px 0px rgba(0, 0, 0, 0.5)",
+        minWidth: "100vw",
+        position: "fixed",
       }}>
-      <Heading>{name}</Heading>
+      <Typography sx={{ color: "#00AD85" }} variant="h4">
+        {name}
+      </Typography>
       <Box>
         <TextField.Root>
           <TextField.Slot>
@@ -35,6 +44,6 @@ export default function Navbar({ name }: { name: string }) {
         Cart
       </Button>
       <CartDrawer open={open} setOpen={setOpen} />
-    </Flex>
+    </Box>
   );
 }
