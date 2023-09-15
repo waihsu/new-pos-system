@@ -12,6 +12,7 @@ export default async function orders() {
   const orders = await prisma.orders.findMany({
     where: { location_id: location_id },
   });
+  console.log(orders);
 
   const Items = orders.map((item) => item.cart);
 

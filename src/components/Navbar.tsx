@@ -36,7 +36,7 @@ export default function Navbar({ name }: { name: string }) {
   };
   useEffect(() => {
     getCarts();
-  }, [carts]);
+  }, [carts?.length]);
   return (
     <Box
       sx={{
