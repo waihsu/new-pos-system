@@ -9,7 +9,7 @@ datasource db {
 
 type OrdersCart {
   product_id String @db.ObjectId
-  /// Multiple data types found: String: 84.6%, BigInt: 15.4% out of 13 sampled entries
+  /// Multiple data types found: String: 78.6%, Int: 7.1%, BigInt: 14.3% out of 14 sampled entries
   quantity   Json
 }
 
@@ -66,7 +66,7 @@ model orders {
   cart        OrdersCart[]
   location_id String       @db.ObjectId
   status      String
-  /// Multiple data types found: Int: 10%, BigInt: 90% out of 10 sampled entries
+  /// Multiple data types found: String: 81.8%, Int: 9.1%, BigInt: 9.1% out of 11 sampled entries
   total       Json
   user_id     String       @db.ObjectId
 }
