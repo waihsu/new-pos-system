@@ -1,12 +1,42 @@
 "use client";
-import { Box, Button, Typography } from "@mui/material";
+import {
+  Badge,
+  BadgeProps,
+  Box,
+  Button,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { Flex, Heading, TextField } from "@radix-ui/themes";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CartDrawer from "./CartDrawer";
+import { styled } from "@mui/material/styles";
+import { FaShoppingCart } from "react-icons/fa";
+import { Cart, getCart } from "@/app/actions";
 
 export default function Navbar({ name }: { name: string }) {
   const [open, setOpen] = useState(false);
+  const [carts, setCart] = useState<Cart[]>();
+  const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
+    "& .MuiBadge-badge": {
+      right: -3,
+      top: 13,
+      border: `2px solid ${theme.palette.background.paper}`,
+      padding: "0 4px",
+    },
+  }));
+  const getCarts = async () => {
+    const data = await getCart();
+    if (data) {
+      const carts = JSON.parse(data?.value as string);
+      // console.log(carts);
+      setCart(carts);
+    }
+  };
+  useEffect(() => {
+    getCarts();
+  }, [carts]);
   return (
     <Box
       sx={{
@@ -22,6 +52,7 @@ export default function Navbar({ name }: { name: string }) {
         top: 0,
         left: 0,
         py: 2,
+        px: 3,
       }}
       style={{
         boxShadow: "0px 5px 10px 0px rgba(0, 0, 0, 0.5)",
@@ -40,9 +71,11 @@ export default function Navbar({ name }: { name: string }) {
         </TextField.Root>
       </Box>
 
-      <Button variant="contained" onClick={() => setOpen(true)}>
-        Cart
-      </Button>
+      <IconButton onClick={() => setOpen(!open)} aria-label="cart">
+        <StyledBadge badgeContent={carts && carts.length} color="secondary">
+          <FaShoppingCart />
+        </StyledBadge>
+      </IconButton>
       <CartDrawer open={open} setOpen={setOpen} />
     </Box>
   );
