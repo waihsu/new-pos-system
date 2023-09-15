@@ -25,12 +25,31 @@ export const authOptions: NextAuthOptions = {
         if (existUser) {
           return true;
         } else {
-          return false;
+          const createUser = await prisma.users.create({
+            data: {
+              username: profile?.name as string,
+              email: profile?.email as string,
+              role: "User",
+            },
+          });
+          return true;
         }
       }
       return true; // Do different verification for other providers that don't have `email_verified`
     },
+
+    async jwt({ token, account, profile }) {
+      // console.log("token", token, "account", account);
+      const user = await prisma.users.findFirst({
+        where: { email: token.email as string },
+      });
+      if (user) {
+        token.role = user.role;
+      }
+      return token;
+    },
     async session({ session, token }) {
+      // console.log("token", token);
       const existUser = await prisma.users.findFirst({
         where: { email: token.email as string },
       });

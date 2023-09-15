@@ -10,11 +10,11 @@ export default function layout({ children }: Props) {
   return (
     <Box
       style={{
-        backgroundColor: "orange",
         position: "relative",
         minHeight: "100vh",
         overflowY: "hidden",
         padding: "0 40px",
+        backgroundColor: "#F6F9FC",
       }}>
       <Box
         position={"fixed"}
@@ -29,7 +29,6 @@ export default function layout({ children }: Props) {
         style={{
           minWidth: "75vw",
           maxHeight: "100vh",
-          backgroundColor: "rebeccapurple",
           position: "absolute",
           top: 0,
           right: 0,
@@ -37,10 +36,12 @@ export default function layout({ children }: Props) {
         }}>
         <Box
           style={{
-            maxWidth: "90%",
+            maxWidth: 840,
             minHeight: "100vh",
             margin: "auto",
             marginTop: 90,
+            boxShadow: "0px 5px 10px 8px rgba(0, 0, 0, 0.5)",
+            padding: 30,
           }}>
           {children}
         </Box>

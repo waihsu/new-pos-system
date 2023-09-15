@@ -6,18 +6,24 @@ import { cookies } from "next/headers";
 import ItemCard from "@/components/ItemCard";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 import { getCategoriesBySelectedLocation } from "@/lib/server";
+import Link from "next/link";
 
 export default async function page() {
   const location_id = cookies().get("selectedLocationId")?.value as string;
   const categories = await getCategoriesBySelectedLocation(location_id);
-  console.log(categories);
+  // console.log(categories);
   return (
     <Box>
       <NewCategory location_id={location_id} />
-      <Box sx={{ display: "flex", gap: 2 }}>
+      <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
         {categories.map((category) => (
           <Box key={category.id} sx={{ width: 200, height: 200 }}>
-            <ItemCard icon={<BiSolidCategoryAlt />} name={category.name} />
+            <Link
+              href={`/backoffice/categories/${category.id}`}
+              style={{ textDecoration: "none" }}>
+              {" "}
+              <ItemCard icon={<BiSolidCategoryAlt />} name={category.name} />
+            </Link>
           </Box>
         ))}
       </Box>

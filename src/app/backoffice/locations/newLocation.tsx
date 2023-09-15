@@ -15,6 +15,8 @@ import { setLocation } from "@/app/actions";
 import BackOfficeLayout from "@/components/BackOfficeLayout";
 import { LoadingButton } from "@mui/lab";
 import { config } from "@/config/config";
+import FileDropZone from "@/components/FileDropZone";
+import { uploadImage } from "@/lib/server";
 
 export default function NewLocation({
   locations,
@@ -31,8 +33,14 @@ export default function NewLocation({
   const [newLocation, setNewLocation] = useState({
     name: "",
     address: "",
+    asset_url: "",
+    phone: "",
     user_id: user_id,
   });
+  const [shopImage, setShopImage] = useState<File>();
+  const selectFile = (files: File[]) => {
+    setShopImage(files[0]);
+  };
   useEffect(() => {
     if (!locations_id) {
       setLocation(locations[0].id);
@@ -49,6 +57,9 @@ export default function NewLocation({
 
   const createLocation = async () => {
     setLoading(true);
+
+    const image_url = await uploadImage(shopImage as File);
+    newLocation.asset_url = image_url;
     const resp = await fetch(`${config.nextauth_url}/api/locations`, {
       method: "POST",
       headers: {
@@ -66,9 +77,9 @@ export default function NewLocation({
 
   return (
     <BackOfficeLayout
-      title="Locations"
+      title="Shop"
       link=""
-      button="Add New Location"
+      button="Add New Shop"
       open={open}
       setOpen={setOpen}>
       <Autocomplete
@@ -79,23 +90,36 @@ export default function NewLocation({
         getOptionLabel={(locations) => locations.name}
         onChange={(evt, value) => handleClick(value?.id as string)}
         sx={{ width: 300 }}
-        renderInput={(params) => <TextField {...params} label="Movie" />}
+        renderInput={(params) => (
+          <TextField {...params} label="Please Select Shop" />
+        )}
       />
       <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>New Location</DialogTitle>
-        <DialogContent>
+        <DialogTitle>New Shop</DialogTitle>
+        <DialogContent
+          sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <TextField
+            size="small"
             label="Name"
             onChange={(evt) =>
               setNewLocation({ ...newLocation, name: evt.target.value })
             }
           />
           <TextField
+            size="small"
             label="Address"
             onChange={(evt) =>
               setNewLocation({ ...newLocation, address: evt.target.value })
             }
           />
+          <TextField
+            size="small"
+            label="Phone Number"
+            onChange={(evt) =>
+              setNewLocation({ ...newLocation, phone: evt.target.value })
+            }
+          />
+          <FileDropZone selectedFile={selectFile} />
         </DialogContent>
         <DialogActions>
           <LoadingButton loading={loading} onClick={createLocation}>

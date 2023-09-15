@@ -1,7 +1,6 @@
 import {
-  getAllData,
   getCategoriesBySelectedLocation,
-  getLocations,
+  getLocationsByUserId,
   getSingleProduct,
 } from "@/lib/server";
 import React from "react";
@@ -22,7 +21,7 @@ export default async function SingleProduct({ params }: { params: any }) {
   const user = session?.user as users;
   const user_id = user.id as string;
 
-  const locations = await getLocations(user_id);
+  const locations = await getLocationsByUserId(user_id);
 
   const id = params.id;
   const product = (await getSingleProduct(id)) as products;
@@ -48,7 +47,7 @@ export default async function SingleProduct({ params }: { params: any }) {
   const connectedCategories = await prisma.categories.findMany({
     where: { id: { in: connectedCategoryIds } },
   });
-  console.log("locations_id", locations_id);
+  // console.log("locations_id", locations_id);
 
   return (
     <BackOfficeLayout

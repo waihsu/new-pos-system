@@ -33,7 +33,9 @@ export default function BackOfficeLayout({
             <Button>{button}</Button>
           </Link>
         ) : (
-          <Button onClick={() => setOpen && setOpen(true)}>{button}</Button>
+          button && (
+            <Button onClick={() => setOpen && setOpen(true)}>{button}</Button>
+          )
         )}
       </Flex>
       {children}
