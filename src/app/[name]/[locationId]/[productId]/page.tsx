@@ -6,13 +6,13 @@ import Navbar from "@/components/Navbar";
 import { Box } from "@mui/material";
 
 export default async function page({ params }: { params: any }) {
-  console.log(params);
+  // console.log(params);
   const { productId, name, locationId } = params;
 
   const product = (await prisma.products.findFirst({
     where: { id: productId },
   })) as products;
-  console.log(product);
+  // console.log(product);
 
   return (
     <div>

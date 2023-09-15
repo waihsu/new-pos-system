@@ -3,6 +3,7 @@ import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { Box, Card, Flex, Inset, Text } from "@radix-ui/themes";
 import Image from "next/image";
 import React from "react";
+import { AiOutlineStar } from "react-icons/ai";
 
 export default function ProductCard({
   id,
@@ -19,7 +20,7 @@ export default function ProductCard({
         size="2"
         style={{
           maxHeight: 400,
-          backgroundColor: "transparent",
+          backgroundColor: "wheat",
           boxShadow: "0px 5px 10px 8px rgba(0, 0, 0, 0.5)",
         }}>
         <Flex direction={"column"} gap={"5"}>
@@ -42,14 +43,11 @@ export default function ProductCard({
           </Inset>
 
           <Flex direction={"column"} gap={"2"} style={{ maxWidth: 400 }}>
-            <Text weight={"bold"} style={{ color: "#92ca43" }} size="5">
+            <Text weight={"bold"} color="cyan" size="5">
               {name}
             </Text>
-            <Text color="gray" size="2">
-              Stock - {stock}
-            </Text>
-            <Text color="gray" size="2">
-              Price - {price}
+            <Text color="gray" size="2" weight={"bold"}>
+              Price - {price} ks
             </Text>
           </Flex>
         </Flex>

@@ -44,7 +44,7 @@ const sidebarItems = [
   },
   {
     id: 7,
-    label: "Locations",
+    label: "Shops",
     icon: <AiFillSetting />,
     route: "/backoffice/locations",
   },
@@ -52,15 +52,16 @@ const sidebarItems = [
 
 export default function BackOfficeSidebar() {
   const pathName = usePathname();
-  console.log(pathName);
+
   return (
     <Flex
       direction={"column"}
       pt={"8"}
       style={{
-        backgroundColor: "ActiveBorder",
         minHeight: 450,
         borderRadius: 10,
+        backgroundColor: "white",
+        boxShadow: "0px 5px 10px 8px rgba(0, 0, 0, 0.5)",
       }}>
       {sidebarItems.map((item) => (
         <Flex key={item.id} align={"center"} justify={"start"} py={"2"}>

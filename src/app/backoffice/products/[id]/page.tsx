@@ -47,7 +47,7 @@ export default async function SingleProduct({ params }: { params: any }) {
   const connectedCategories = await prisma.categories.findMany({
     where: { id: { in: connectedCategoryIds } },
   });
-  console.log("locations_id", locations_id);
+  // console.log("locations_id", locations_id);
 
   return (
     <BackOfficeLayout

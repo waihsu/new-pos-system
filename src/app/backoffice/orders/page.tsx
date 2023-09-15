@@ -8,16 +8,16 @@ import React from "react";
 
 export default async function orders() {
   const location_id = await getLocationId();
-  console.log("location_id", location_id);
+
   const orders = await prisma.orders.findMany({
     where: { location_id: location_id },
   });
-  console.log("orders", orders);
+
   const Items = orders.map((item) => item.cart);
-  console.log("Items", Items);
+
   const userIds = orders.map((item) => item.user_id);
   const users = await prisma.users.findMany({ where: { id: { in: userIds } } });
-  console.log(users);
+
   const name = (id: string) => {
     return users.filter((item) => item.id === id)[0].username;
   };

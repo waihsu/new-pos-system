@@ -1,7 +1,7 @@
 import { Box, Button, Flex, Grid, Heading } from "@radix-ui/themes";
 import React from "react";
 import ProductSearch from "./ProductSearch";
-import ProductCard from "./ProductCard";
+import ProductCard from "../../../components/ProductCard";
 import { getCategoriesBySelectedLocation, getProducts } from "@/lib/server";
 import { BiLogoProductHunt } from "react-icons/bi";
 import BackOfficeLayout from "@/components/BackOfficeLayout";

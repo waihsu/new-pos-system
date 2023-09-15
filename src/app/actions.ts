@@ -54,18 +54,18 @@ export async function addToCart({
 
   if (existCart) {
     const data = JSON.parse(existCart?.value as string) as Cart[];
-    console.log("data", data);
+    // console.log("data", data);
     const productIds = data.map((item) => item.id);
     if (productIds.includes(id)) {
-      console.log("same");
+      // console.log("same");
       const sameCart = data.filter((item) => item.id === id)[0];
       const different = data.filter((item) => item.id !== id);
-      console.log("differ", different);
+      // console.log("differ", different);
       const newQuantityCart = { ...sameCart, quantity: Number(quantity) };
-      console.log("sameCart", sameCart, "newQuantity", newQuantityCart);
+      // console.log("sameCart", sameCart, "newQuantity", newQuantityCart);
       cookies().set("cart", JSON.stringify([...different, newQuantityCart]));
     } else {
-      console.log("not same");
+      // console.log("not same");
       cookies().set(
         "cart",
         JSON.stringify([
@@ -90,9 +90,9 @@ export async function addToCart({
 
 export async function deleteCartItem(productId: string) {
   const data = JSON.parse(cookies().get("cart")?.value as string) as Cart[];
-  console.log("data", data);
+  // console.log("data", data);
   const validCart = data.filter((item) => item.id !== productId);
-  console.log(validCart);
+  // console.log(validCart);
   cookies().set("cart", JSON.stringify(validCart));
 }
 

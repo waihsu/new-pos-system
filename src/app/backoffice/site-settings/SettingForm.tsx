@@ -21,17 +21,7 @@ export default function SettingForm({ location }: { location: locations }) {
   });
 
   const handleUpdate = async () => {
-    if (logoImg?.length) {
-      const image_url = await uploadImage(logoImg as File);
-      updateShop.asset_url = image_url;
-      const resp = await fetch(`${config.nextauth_url}/api/locations`, {
-        method: "PUT",
-        headers: {
-          "content-type": "applications",
-        },
-        body: JSON.stringify(updateShop),
-      });
-    } else {
+    if (!logoImg?.length) {
       const resp = await fetch(`${config.nextauth_url}/api/locations`, {
         method: "PUT",
         headers: {
@@ -40,6 +30,16 @@ export default function SettingForm({ location }: { location: locations }) {
         body: JSON.stringify(updateShop),
       });
     }
+
+    const image_url = await uploadImage(logoImg as File);
+    updateShop.asset_url = image_url;
+    const resp = await fetch(`${config.nextauth_url}/api/locations`, {
+      method: "PUT",
+      headers: {
+        "content-type": "applications",
+      },
+      body: JSON.stringify(updateShop),
+    });
   };
 
   return (

@@ -7,8 +7,7 @@ import { getLocationId } from "@/app/actions";
 export default async function NewProduct() {
   const locations_id = await getLocationId();
   const categories = await getCategoriesBySelectedLocation(locations_id);
-  console.log(locations_id);
-  console.log(categories);
+
   return (
     <BackOfficeLayout
       title="New Product"

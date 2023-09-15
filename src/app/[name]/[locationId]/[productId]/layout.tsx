@@ -10,7 +10,7 @@ export default async function layout({
   params: any;
   children: React.ReactNode;
 }) {
-  console.log("params", params);
+  // console.log("params", params);
   const { locationId } = params;
   const location = await prisma.locations.findFirst({
     where: { id: locationId },

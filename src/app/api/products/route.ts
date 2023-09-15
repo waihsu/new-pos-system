@@ -49,17 +49,6 @@ export async function PUT(req: NextRequest) {
     categories_id,
     locations_id,
   } = await req.json();
-  console.log(
-    id,
-    name,
-    asset_url,
-    description,
-    price,
-    rating,
-    stock,
-    categories_id,
-    locations_id
-  );
 
   const updatedProduct = await prisma.products.update({
     where: { id },
@@ -76,12 +65,12 @@ export async function PUT(req: NextRequest) {
   const existCategories = await prisma.locations_categories_products.findMany({
     where: { location_id: locations_id, product_id: id },
   });
-  console.log("existCategories", existCategories);
+  // console.log("existCategories", existCategories);
   const existCategoriesIds = existCategories.map((item) => item.category_id);
   const addedCategories = categories_id.filter(
     (item: string) => !existCategoriesIds.includes(item)
   ) as string[];
-  console.log(addedCategories);
+  // console.log(addedCategories);
   if (addedCategories.length) {
     addedCategories.map(
       async (item: string) =>
@@ -97,7 +86,7 @@ export async function PUT(req: NextRequest) {
   const removeCategoryIds = existCategoriesIds.filter(
     (item) => !categories_id.includes(item)
   );
-  console.log("removeIds", removeCategoryIds);
+  // console.log("removeIds", removeCategoryIds);
   if (removeCategoryIds.length) {
     removeCategoryIds.map(async (item: string) => {
       await prisma.locations_categories_products.deleteMany({
@@ -111,4 +100,12 @@ export async function PUT(req: NextRequest) {
   }
 
   return NextResponse.json({ messg: "k" });
+}
+
+export async function DELETE(req: NextRequest) {
+  const id = await req.json();
+  const deletedProduct = await prisma.products.delete({
+    where: { id },
+  });
+  return NextResponse.json({ deletedProduct });
 }

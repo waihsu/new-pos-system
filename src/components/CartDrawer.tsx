@@ -45,7 +45,7 @@ export default function CartDrawer({ open, setOpen }: Props) {
     const data = await getCart();
     if (data) {
       const carts = JSON.parse(data?.value as string);
-      console.log(carts);
+      // console.log(carts);
       setCart(carts);
     }
   };
@@ -61,8 +61,8 @@ export default function CartDrawer({ open, setOpen }: Props) {
     getCarts();
     getLocationId();
   }, [open]);
-  console.log(carts);
-  console.log(locationId);
+  // console.log(carts);
+  // console.log(locationId);
 
   const total = carts
     ?.map((item) => Number(item.quantity) * Number(item.price))
@@ -72,7 +72,7 @@ export default function CartDrawer({ open, setOpen }: Props) {
     product_id: item.id,
     quantity: item.quantity as string,
   })) as NewCart[];
-  console.log(newCarts);
+  // console.log(newCarts);
 
   const [order, setOrder] = useState({
     user_id: user_id,

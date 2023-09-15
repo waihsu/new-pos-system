@@ -5,12 +5,12 @@ import { getCategoriesBySelectedLocation } from "@/lib/server";
 import { locations } from "@prisma/client";
 import React from "react";
 import ProductCategoriesTabs from "./ProductCategoriesTabs";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 
 export default async function page({ params }: { params: string }) {
   const { name, locationId }: any = params;
-  console.log("name", name, "locationId", locationId);
+  // console.log("name", name, "locationId", locationId);
   const locations = (await prisma.locations.findUnique({
     where: { id: locationId },
   })) as locations;
@@ -34,15 +34,25 @@ export default async function page({ params }: { params: string }) {
 
   return (
     <Box>
-      <Box sx={{ width: "100vw", height: 500 }}>
-        <Image
+      <Box
+        sx={{
+          width: "100vw",
+          height: 500,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          mt: 8,
+        }}>
+        {/* <Image
           src={locations?.asset_url}
           alt="banner"
-          sizes="100vw"
-          style={{ width: "100%", height: "100%" }}
-          width={0}
-          height={0}
-        />
+          width={800}
+          height={200}
+        /> */}
+        <Typography
+          sx={{ fontSize: 100, fontWeight: "bold", color: "yellowgreen" }}>
+          {locations.name}
+        </Typography>
       </Box>
       <ShopLayout locations={locations}>
         <ProductCategoriesTabs

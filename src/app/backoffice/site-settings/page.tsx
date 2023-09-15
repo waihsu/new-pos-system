@@ -12,7 +12,7 @@ export default async function SiteSettings() {
     where: { id: location_id },
   });
 
-  console.log(location);
+  // console.log(location);
   return (
     <BackOfficeLayout
       title="Edit Page"

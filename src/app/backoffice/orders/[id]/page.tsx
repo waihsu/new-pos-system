@@ -18,7 +18,7 @@ export default async function Order({ params }: { params: any }) {
   const customers = await prisma.customers.findFirst({
     where: { user_id: order?.user_id },
   });
-  console.log(customers);
+  // console.log(customers);
 
   const validProduct = (id: string) => {
     const product = products.filter((item) => item.id === id)[0];

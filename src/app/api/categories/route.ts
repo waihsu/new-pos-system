@@ -8,3 +8,15 @@ export async function POST(req: NextRequest) {
   });
   return NextResponse.json({ createdCategory });
 }
+
+export async function DELETE(req: NextRequest) {
+  const id = await req.json();
+  const deletedCategory = await prisma.categories.delete({
+    where: { id },
+  });
+  const deleteCategoriesLocationsProducts =
+    await prisma.locations_categories_products.deleteMany({
+      where: { category_id: id },
+    });
+  return NextResponse.json({ deletedCategory });
+}

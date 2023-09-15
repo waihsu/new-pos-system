@@ -28,7 +28,7 @@ export default function Navbar({ name }: { name: string }) {
         minWidth: "100vw",
         position: "fixed",
       }}>
-      <Typography sx={{ color: "#00AD85" }} variant="h4">
+      <Typography sx={{ color: "yellowgreen" }} variant="h4">
         {name}
       </Typography>
       <Box>

@@ -77,9 +77,9 @@ export default function NewLocation({
 
   return (
     <BackOfficeLayout
-      title="Locations"
+      title="Shop"
       link=""
-      button="Add New Location"
+      button="Add New Shop"
       open={open}
       setOpen={setOpen}>
       <Autocomplete
@@ -90,10 +90,12 @@ export default function NewLocation({
         getOptionLabel={(locations) => locations.name}
         onChange={(evt, value) => handleClick(value?.id as string)}
         sx={{ width: 300 }}
-        renderInput={(params) => <TextField {...params} label="Movie" />}
+        renderInput={(params) => (
+          <TextField {...params} label="Please Select Shop" />
+        )}
       />
       <Dialog open={open} onClose={() => setOpen(false)}>
-        <DialogTitle>New Location</DialogTitle>
+        <DialogTitle>New Shop</DialogTitle>
         <DialogContent
           sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           <TextField

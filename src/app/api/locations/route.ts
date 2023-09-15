@@ -24,3 +24,12 @@ export async function PUT(req: NextRequest) {
   });
   return NextResponse.json({ updateShop });
 }
+
+export async function DELETE(req: NextRequest) {
+  const location_id = await req.json();
+  // console.log(location_id);
+  const deletedShop = await prisma.locations.delete({
+    where: { id: location_id },
+  });
+  return NextResponse.json({ deletedShop });
+}

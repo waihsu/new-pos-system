@@ -22,11 +22,11 @@ export default function AddToCart({
         const data = JSON.parse(cart?.value) as Cart[];
         if (data.filter((item) => item.id === product.id)[0]) {
           const existProduct = data.filter((item) => item.id === product.id)[0];
-          console.log("existProduct", existProduct);
+          // console.log("existProduct", existProduct);
           const existQuantity = existProduct?.quantity;
           const existProductId = data.filter((item) => item.id === product.id);
           if (existProductId) {
-            console.log(existQuantity);
+            // console.log(existQuantity);
             setQuantity(Number(existQuantity));
             setAdded(true);
           }
@@ -64,7 +64,7 @@ export default function AddToCart({
     });
     setAdded(true);
   };
-  console.log(product.id, added);
+  // console.log(product.id, added);
   return (
     <Card style={{ maxWidth: 800 }} mx={"auto"}>
       <Flex gap="3" align="center">

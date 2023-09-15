@@ -1,4 +1,5 @@
 "use client";
+import DeleteDialog from "@/components/DeleteDialog";
 import FileDropZone from "@/components/FileDropZone";
 import { config } from "@/config/config";
 import { prisma } from "@/lib";
@@ -27,6 +28,7 @@ export default function EditProduct({
 }) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [open, setOpen] = useState(false);
   const [error, setError] = useState<string>();
   const [updateProduct, setUpdateProduct] = useState({
     id: product.id,
@@ -75,7 +77,20 @@ export default function EditProduct({
     router.refresh();
     router.push("/backoffice/products");
   };
-  console.log(updateProduct);
+
+  const deleteProduct = async () => {
+    const resp = await fetch(`${config.nextauth_url}/api/products`, {
+      method: "DELETE",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(id),
+    });
+    if (resp.ok) {
+      router.refresh();
+      router.push("/backoffice/products");
+    }
+  };
 
   return (
     <Box>
@@ -169,9 +184,17 @@ export default function EditProduct({
           size="small"
           placeholder="stock"
         />
-        <LoadingButton loading={isLoading} onClick={handleClick}>
-          Create
+        <LoadingButton
+          loading={isLoading}
+          onClick={handleClick}
+          variant="contained"
+          color="primary">
+          Update
         </LoadingButton>
+        <Button onClick={() => setOpen(!open)} color="ruby">
+          Delete
+        </Button>
+        <DeleteDialog open={open} setOpen={setOpen} callback={deleteProduct} />
       </Flex>
     </Box>
   );

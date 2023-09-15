@@ -6,7 +6,7 @@ import {
 } from "@prisma/client";
 import { Box, Button, Tabs, Text } from "@radix-ui/themes";
 import React, { useEffect, useState } from "react";
-import ProductCard from "../../backoffice/products/ProductCard";
+import ProductCard from "../../../components/ProductCard";
 import Link from "next/link";
 
 export default function ProductCategoriesTabs({
