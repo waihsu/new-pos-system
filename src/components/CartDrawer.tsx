@@ -103,10 +103,12 @@ export default function CartDrawer({ open, setOpen }: Props) {
 
     if (resp.ok) {
       setMessage("Success");
-      delectcart();
+      await delectcart();
+      router.refresh();
     } else {
       setError("Please Retry");
-      delectcart();
+      await delectcart();
+      router.refresh();
     }
   };
   return (

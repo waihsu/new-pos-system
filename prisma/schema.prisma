@@ -9,7 +9,8 @@ datasource db {
 
 type OrdersCart {
   product_id String @db.ObjectId
-  quantity   Int
+  /// Multiple data types found: String: 84.6%, BigInt: 15.4% out of 13 sampled entries
+  quantity   Json
 }
 
 model addon_categories {
@@ -36,6 +37,14 @@ model companies {
   name String
 }
 
+model customers {
+  id      String @id @default(auto()) @map("_id") @db.ObjectId
+  address String
+  name    String
+  phone   String
+  user_id String @db.ObjectId
+}
+
 model locations {
   id        String @id @default(auto()) @map("_id") @db.ObjectId
   address   String
@@ -57,7 +66,8 @@ model orders {
   cart        OrdersCart[]
   location_id String       @db.ObjectId
   status      String
-  total       Int
+  /// Multiple data types found: Int: 10%, BigInt: 90% out of 10 sampled entries
+  total       Json
   user_id     String       @db.ObjectId
 }
 
@@ -71,26 +81,17 @@ model products {
   stock       String
 }
 
+model services {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  context     String
+  location_id String @db.ObjectId
+  title       String
+}
+
 model users {
   id           String  @id @default(auto()) @map("_id") @db.ObjectId
   companies_id String? @db.ObjectId
   email        String  @unique
   role         String
   username     String
-}
-
-model customers {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  phone       String  @unique
-  address     String
-  user_id     String  @db.ObjectId @unique
-}
-
-
-model services {
-  id          String  @id @default(auto())  @map("_id") @db.ObjectId
-  title       String
-  context     String
-  location_id String  @db.ObjectId
 }
