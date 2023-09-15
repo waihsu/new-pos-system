@@ -77,7 +77,7 @@ export default function CartDrawer({ open, setOpen }: Props) {
   const [order, setOrder] = useState({
     user_id: user_id,
     cart: newCarts,
-    total: total,
+    total: String(total),
     status: "",
     location_id: locationId as string,
   });
