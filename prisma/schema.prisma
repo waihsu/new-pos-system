@@ -9,7 +9,7 @@ datasource db {
 
 type OrdersCart {
   product_id String @db.ObjectId
-  quantity   Int
+  quantity   String
 }
 
 model addon_categories {
@@ -42,6 +42,7 @@ model locations {
   asset_url String
   name      String @unique
   phone     String
+  qrcode_url String
   user_id   String @db.ObjectId
 }
 
@@ -77,6 +78,7 @@ model users {
   email        String  @unique
   role         String
   username     String
+  asset_url    String
 }
 
 model customers {

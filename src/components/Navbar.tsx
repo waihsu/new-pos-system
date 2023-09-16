@@ -1,10 +1,13 @@
 "use client";
 import {
+  Avatar,
   Badge,
   BadgeProps,
   Box,
   Button,
   IconButton,
+  Menu,
+  MenuItem,
   Typography,
 } from "@mui/material";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
@@ -14,9 +17,21 @@ import CartDrawer from "./CartDrawer";
 import { styled } from "@mui/material/styles";
 import { FaShoppingCart } from "react-icons/fa";
 import { Cart, getCart } from "@/app/actions";
+import { signOut, useSession } from "next-auth/react";
+import { users } from "@prisma/client";
+import Link from "next/link";
 
-export default function Navbar({ name }: { name: string }) {
+export default function Navbar({
+  name,
+  qrcode,
+}: {
+  name: string;
+  qrcode?: string;
+}) {
+  const { data: session } = useSession();
+  const user = session?.user as users;
   const [open, setOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [carts, setCart] = useState<Cart[]>();
   const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
     "& .MuiBadge-badge": {
@@ -36,7 +51,7 @@ export default function Navbar({ name }: { name: string }) {
   };
   useEffect(() => {
     getCarts();
-  }, [carts]);
+  }, [carts?.length]);
   return (
     <Box
       sx={{
@@ -53,11 +68,6 @@ export default function Navbar({ name }: { name: string }) {
         left: 0,
         py: 2,
         px: 3,
-      }}
-      style={{
-        boxShadow: "0px 5px 10px 0px rgba(0, 0, 0, 0.5)",
-        minWidth: "100vw",
-        position: "fixed",
       }}>
       <Typography sx={{ color: "yellowgreen" }} variant="h4">
         {name}
@@ -71,12 +81,51 @@ export default function Navbar({ name }: { name: string }) {
         </TextField.Root>
       </Box>
 
-      <IconButton onClick={() => setOpen(!open)} aria-label="cart">
-        <StyledBadge badgeContent={carts && carts.length} color="secondary">
-          <FaShoppingCart />
-        </StyledBadge>
-      </IconButton>
-      <CartDrawer open={open} setOpen={setOpen} />
+      <Box sx={{ display: "flex", gap: 2 }}>
+        <div>
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={() => setProfileOpen(!profileOpen)}
+            color="inherit">
+            <Avatar src={user?.asset_url} alt="profile" />
+          </IconButton>
+          <Menu
+            sx={{ mt: 10 }}
+            id="menu-appbar"
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            open={profileOpen}
+            onClose={() => setProfileOpen(!profileOpen)}>
+            <MenuItem onClick={() => setProfileOpen(!profileOpen)}>
+              <Link href="/profile">Profile</Link>
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                signOut();
+                setProfileOpen(!profileOpen);
+              }}>
+              Log Out
+            </MenuItem>
+          </Menu>
+        </div>
+
+        <IconButton onClick={() => setOpen(!open)} aria-label="cart">
+          <StyledBadge badgeContent={carts && carts.length} color="secondary">
+            <FaShoppingCart />
+          </StyledBadge>
+        </IconButton>
+      </Box>
+      <CartDrawer open={open} setOpen={setOpen} qrcode={qrcode as string} />
     </Box>
   );
 }

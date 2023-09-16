@@ -50,7 +50,11 @@ export default async function page({ params }: { params: string }) {
           height={200}
         /> */}
         <Typography
-          sx={{ fontSize: 100, fontWeight: "bold", color: "yellowgreen" }}>
+          sx={{
+            fontSize: { xs: 40, md: 100 },
+            fontWeight: "bold",
+            color: "yellowgreen",
+          }}>
           {locations.name}
         </Typography>
       </Box>

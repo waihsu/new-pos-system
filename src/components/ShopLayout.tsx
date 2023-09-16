@@ -20,7 +20,7 @@ export default function ShopLayout({
         background:
           "linear-gradient(90deg, rgba(255,89,0,1) 0%, rgba(255,141,0,1) 100%)",
       }}>
-      <Navbar name={locations?.name} />
+      <Navbar name={locations?.name} qrcode={locations.qrcode_url} />
 
       <Box
         sx={{
@@ -30,7 +30,7 @@ export default function ShopLayout({
           // alignItems: "center",
         }}>
         {children}
-        <Box>
+        <Box sx={{ display: { xs: "none", md: "flex" } }}>
           <AboutCard location={locations} />
         </Box>
       </Box>

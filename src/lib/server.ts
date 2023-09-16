@@ -1,7 +1,7 @@
 import { categories } from "@prisma/client";
 import { prisma } from ".";
 import { supabase } from "./supabase";
-import { cookies } from "next/headers";
+import QRCode from "qrcode";
 
 export const getLocations = async () => {
   const locations = await prisma.locations.findMany();
@@ -71,3 +71,7 @@ export const uploadImage = async (files: File) => {
 };
 
 export const deleteImage = async () => {};
+
+export const generateQR = async (text: string) => {
+  return QRCode.toDataURL(text);
+};

@@ -29,6 +29,7 @@ export const authOptions: NextAuthOptions = {
             data: {
               username: profile?.name as string,
               email: profile?.email as string,
+              asset_url: profile?.image as string,
               role: "User",
             },
           });
@@ -57,6 +58,7 @@ export const authOptions: NextAuthOptions = {
         id: existUser?.id,
         username: existUser?.username,
         email: existUser?.email,
+        asset_url: token.picture,
         companies_id: existUser?.companies_id,
       } as users;
       return session;
