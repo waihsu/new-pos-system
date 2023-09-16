@@ -4,10 +4,11 @@ import {
   locations_categories_products,
   products,
 } from "@prisma/client";
-import { Box, Button, Tabs, Text } from "@radix-ui/themes";
+import { Button, Tabs, Text } from "@radix-ui/themes";
 import React, { useEffect, useState } from "react";
 import ProductCard from "../../../components/ProductCard";
 import Link from "next/link";
+import { Box } from "@mui/material";
 
 export default function ProductCategoriesTabs({
   products,
@@ -36,29 +37,30 @@ export default function ProductCategoriesTabs({
   return (
     <Box style={{ maxWidth: 900 }}>
       <Tabs.Root defaultValue="all" style={{ minWidth: 900 }} mx={"auto"}>
-        <Tabs.List>
-          <Tabs.Trigger value="all">All</Tabs.Trigger>
-          {categories.map((item) => (
-            <Tabs.Trigger
-              onClick={() => setSelectCategoryId(item.id)}
-              value={item.id}
-              key={item.id}>
-              {item.name}
-            </Tabs.Trigger>
-          ))}
-        </Tabs.List>
+        <Box sx={{ width: { xs: 300, md: 900 }, mx: "auto" }}>
+          <Tabs.List>
+            <Tabs.Trigger value="all">All</Tabs.Trigger>
+            {categories.map((item) => (
+              <Tabs.Trigger
+                onClick={() => setSelectCategoryId(item.id)}
+                value={item.id}
+                key={item.id}>
+                {item.name}
+              </Tabs.Trigger>
+            ))}
+          </Tabs.List>
+        </Box>
 
         <Box
-          px="4"
-          pt={"5"}
-          pb="2"
-          style={{
+          sx={{
+            width: { xs: 300, md: 900 },
+            mx: "auto",
             display: "flex",
             justifyContent: "space-evenly",
-            gap: 14,
+            gap: 6,
             flexWrap: "wrap",
-            minHeight: 600,
-            paddingBottom: 80,
+            // minHeight: 600,
+            py: 10,
             backgroundColor:
               "linear-gradient(90deg, rgba(255,89,0,1) 0%, rgba(255,141,0,1) 100%)",
             boxShadow: "0px 0px 40px 10px rgba(0, 0, 0, 0.5)",

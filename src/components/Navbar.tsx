@@ -1,10 +1,13 @@
 "use client";
 import {
+  Avatar,
   Badge,
   BadgeProps,
   Box,
   Button,
   IconButton,
+  Menu,
+  MenuItem,
   Typography,
 } from "@mui/material";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
@@ -14,9 +17,15 @@ import CartDrawer from "./CartDrawer";
 import { styled } from "@mui/material/styles";
 import { FaShoppingCart } from "react-icons/fa";
 import { Cart, getCart } from "@/app/actions";
+import { useSession } from "next-auth/react";
+import { users } from "@prisma/client";
+import Link from "next/link";
 
 export default function Navbar({ name }: { name: string }) {
+  const { data: session } = useSession();
+  const user = session?.user as users;
   const [open, setOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [carts, setCart] = useState<Cart[]>();
   const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
     "& .MuiBadge-badge": {
@@ -71,11 +80,46 @@ export default function Navbar({ name }: { name: string }) {
         </TextField.Root>
       </Box>
 
-      <IconButton onClick={() => setOpen(!open)} aria-label="cart">
-        <StyledBadge badgeContent={carts && carts.length} color="secondary">
-          <FaShoppingCart />
-        </StyledBadge>
-      </IconButton>
+      <Box sx={{ display: "flex", gap: 2 }}>
+        <div style={{ backgroundColor: "red", position: "relative" }}>
+          <IconButton
+            size="large"
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            onClick={() => setProfileOpen(!profileOpen)}
+            color="inherit">
+            <Avatar src={user?.asset_url} alt="profile" />
+          </IconButton>
+          <Menu
+            sx={{ mt: 10 }}
+            id="menu-appbar"
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            open={profileOpen}
+            onClose={() => setProfileOpen(!profileOpen)}>
+            <MenuItem onClick={() => setProfileOpen(!profileOpen)}>
+              <Link href="/profile">Profile</Link>
+            </MenuItem>
+            <MenuItem onClick={() => setProfileOpen(!profileOpen)}>
+              Log Out
+            </MenuItem>
+          </Menu>
+        </div>
+
+        <IconButton onClick={() => setOpen(!open)} aria-label="cart">
+          <StyledBadge badgeContent={carts && carts.length} color="secondary">
+            <FaShoppingCart />
+          </StyledBadge>
+        </IconButton>
+      </Box>
       <CartDrawer open={open} setOpen={setOpen} />
     </Box>
   );

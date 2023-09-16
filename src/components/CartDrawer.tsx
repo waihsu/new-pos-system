@@ -15,6 +15,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { AiFillDelete } from "react-icons/ai";
+import CheckOutStepper from "./CheckOutStepper";
 
 interface Props {
   open: boolean;
@@ -113,14 +114,13 @@ export default function CartDrawer({ open, setOpen }: Props) {
   };
   return (
     <Drawer
-      // ModalProps={{
-      //   keepMounted: true, // Better open performance on mobile.
-      // }}
+      ModalProps={{
+        keepMounted: true, // Better open performance on mobile.
+      }}
       sx={{
         "& .MuiDrawer-paper": {
-          width: "35vw",
           minHeight: "100vh",
-
+          width: "40%",
           position: "absolute",
           right: 0,
           opacity: 0.9,
@@ -130,45 +130,17 @@ export default function CartDrawer({ open, setOpen }: Props) {
       anchor="right"
       open={open}
       onClose={() => setOpen(!open)}>
-      <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-        {carts &&
-          carts.map((cart) => (
-            <Card key={cart.id}>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}>
-                <Image
-                  src={cart.asset_url}
-                  alt="product"
-                  width={100}
-                  height={100}
-                />
-                <Box>
-                  <Text as="div" size="2" weight="bold">
-                    {cart.name}
-                  </Text>
-                  <Text as="div" size="2" color="gray">
-                    {cart.price}
-                  </Text>
-                  <Text as="div" size="2" color="gray">
-                    {cart.quantity}
-                  </Text>
-                  <Text as="div" size="2" color="gray">
-                    Total: {Number(cart.quantity) * Number(cart.price)}
-                  </Text>
-                </Box>
-                <Button
-                  onClick={() => {
-                    deleteCartItem(cart.id);
-                    router.refresh();
-                  }}>
-                  <AiFillDelete />
-                </Button>
-              </Box>
-            </Card>
-          ))}
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          gap: 3,
+        }}>
+        <CheckOutStepper
+          carts={carts as Cart[]}
+          deleteCartItem={deleteCartItem}
+        />
       </Box>
       <Box position={"absolute"} bottom={0} width={"100%"}>
         <Button sx={{ mx: "auto" }} variant="contained" onClick={handleClick}>

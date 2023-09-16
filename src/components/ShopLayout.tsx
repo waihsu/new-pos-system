@@ -30,7 +30,7 @@ export default function ShopLayout({
           // alignItems: "center",
         }}>
         {children}
-        <Box>
+        <Box sx={{ display: { xs: "none", md: "flex" } }}>
           <AboutCard location={locations} />
         </Box>
       </Box>
