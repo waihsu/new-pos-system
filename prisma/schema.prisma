@@ -42,6 +42,7 @@ model locations {
   asset_url String
   name      String @unique
   phone     String
+  qrcode_url String
   user_id   String @db.ObjectId
 }
 

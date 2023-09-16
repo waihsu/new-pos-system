@@ -7,17 +7,23 @@ import {
   getShopId,
 } from "@/app/actions";
 import { config } from "@/config/config";
-import { Box, Button, Drawer } from "@mui/material";
-import { orders, users } from "@prisma/client";
+import { Box, Button, Drawer, TextField } from "@mui/material";
+import { customers, orders, users } from "@prisma/client";
 import { Avatar, Card, Flex, Text } from "@radix-ui/themes";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { AiFillDelete } from "react-icons/ai";
-import CheckOutStepper from "./CheckOutStepper";
+import Stepper from "@mui/material/Stepper";
+import Step from "@mui/material/Step";
+import StepButton from "@mui/material/StepButton";
+import Typography from "@mui/material/Typography";
+
+const steps = ["Order Items", "Info", "Pay and Confirm"];
 
 interface Props {
+  qrcode: string;
   open: boolean;
   setOpen: (value: boolean) => void;
 }
@@ -35,7 +41,7 @@ interface Order {
   location_id: string;
 }
 
-export default function CartDrawer({ open, setOpen }: Props) {
+export default function CartDrawer({ open, setOpen, qrcode }: Props) {
   const { data: session } = useSession();
   const user = session?.user as users;
   const user_id = user?.id as string;
@@ -85,6 +91,11 @@ export default function CartDrawer({ open, setOpen }: Props) {
 
   const [error, setError] = useState<string>();
   const [message, setMessage] = useState<string>();
+  const [customer, setCustomer] = useState({
+    name: "",
+    phone: "",
+    address: "",
+  });
 
   const handleClick = async () => {
     if (!user_id) return alert("You must be login");
@@ -99,6 +110,9 @@ export default function CartDrawer({ open, setOpen }: Props) {
         total: total,
         status: "Pedding",
         location_id: locationId,
+        name: customer.name,
+        phone: customer.phone,
+        address: customer.address,
       }),
     });
 
@@ -111,6 +125,29 @@ export default function CartDrawer({ open, setOpen }: Props) {
       await delectcart();
       router.refresh();
     }
+  };
+
+  //for stepper
+  const [activeStep, setActiveStep] = React.useState(0);
+
+  const totalSteps = () => {
+    return steps.length;
+  };
+
+  const isLastStep = () => {
+    return activeStep === totalSteps() - 1;
+  };
+
+  const handleNext = () => {
+    setActiveStep(activeStep === 3 ? 0 : activeStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleStep = (step: number) => () => {
+    setActiveStep(step);
   };
   return (
     <Drawer
@@ -125,27 +162,130 @@ export default function CartDrawer({ open, setOpen }: Props) {
           right: 0,
           opacity: 0.9,
           px: 2,
+          pt: 6,
         },
       }}
       anchor="right"
       open={open}
       onClose={() => setOpen(!open)}>
-      <Box
-        sx={{
-          width: "100%",
-          display: "flex",
-          flexDirection: "column",
-          gap: 3,
-        }}>
-        <CheckOutStepper
-          carts={carts as Cart[]}
-          deleteCartItem={deleteCartItem}
-        />
-      </Box>
-      <Box position={"absolute"} bottom={0} width={"100%"}>
-        <Button sx={{ mx: "auto" }} variant="contained" onClick={handleClick}>
-          Check out : {carts ? total : 0}
-        </Button>
+      <Box sx={{ width: "100%" }}>
+        <Stepper nonLinear activeStep={activeStep}>
+          {steps.map((label, index) => (
+            <Step key={label}>
+              <StepButton color="inherit" onClick={handleStep(index)}>
+                {label}
+              </StepButton>
+            </Step>
+          ))}
+        </Stepper>
+        <div>
+          <Box sx={{ py: 6 }}>
+            {activeStep === 0 ? (
+              carts &&
+              carts.map((cart) => (
+                <Card key={cart.id}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}>
+                    <Image
+                      src={cart.asset_url}
+                      alt="product"
+                      width={100}
+                      height={100}
+                    />
+                    <Box>
+                      <Text as="div" size="2" weight="bold">
+                        {cart.name}
+                      </Text>
+                      <Text as="div" size="2" color="gray">
+                        {cart.price}
+                      </Text>
+                      <Text as="div" size="2" color="gray">
+                        {cart.quantity}
+                      </Text>
+                      <Text as="div" size="2" color="gray">
+                        Total: {Number(cart.quantity) * Number(cart.price)}
+                      </Text>
+                    </Box>
+                    <Button
+                      onClick={() => {
+                        deleteCartItem(cart.id);
+                        router.refresh();
+                      }}>
+                      <AiFillDelete />
+                    </Button>
+                  </Box>
+                </Card>
+              ))
+            ) : (
+              <span></span>
+            )}
+            {activeStep === 1 ? (
+              <Flex direction={"column"} gap={"3"}>
+                <TextField
+                  label="Name"
+                  onChange={(evt) =>
+                    setCustomer({ ...customer, name: evt.target.value })
+                  }
+                />
+                <TextField
+                  label="PhoneNumber"
+                  onChange={(evt) =>
+                    setCustomer({ ...customer, phone: evt.target.value })
+                  }
+                />
+                <TextField
+                  label="Address"
+                  onChange={(evt) =>
+                    setCustomer({ ...customer, address: evt.target.value })
+                  }
+                />
+              </Flex>
+            ) : (
+              <span></span>
+            )}
+            {activeStep === 2 ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}>
+                <Typography sx={{ fontSize: 30, fontWeight: 600 }}>
+                  KBZ Pay
+                </Typography>
+                <Image src={qrcode} alt="qrcode" width={200} height={200} />
+              </Box>
+            ) : (
+              <span></span>
+            )}
+          </Box>
+          <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+            <Button
+              color="inherit"
+              disabled={activeStep === 0}
+              onClick={handleBack}
+              sx={{ mr: 1 }}>
+              Back
+            </Button>
+            <Box sx={{ flex: "1 1 auto" }} />
+            {activeStep === 2 ? (
+              <Button
+                disabled={carts?.length ? false : true}
+                sx={{ mx: "auto" }}
+                variant="contained"
+                onClick={handleClick}>
+                Confirm : {carts ? total : 0} ks
+              </Button>
+            ) : (
+              <Button onClick={handleNext} sx={{ mr: 1 }}>
+                Next
+              </Button>
+            )}
+          </Box>
+        </div>
       </Box>
     </Drawer>
   );
