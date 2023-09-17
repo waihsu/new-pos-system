@@ -79,3 +79,8 @@ export async function DELETE(req: NextRequest) {
   });
   return NextResponse.json({ deletedShop });
 }
+
+export async function GET(req: NextRequest) {
+  const locations = await prisma.locations.findMany();
+  return NextResponse.json(locations);
+}

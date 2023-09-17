@@ -6,13 +6,13 @@ import { Card, Flex, Text } from "@radix-ui/themes";
 import Link from "next/link";
 import React from "react";
 import DeleteButton from "./DeleteButton";
+import { getOrdersByLocationId } from "@/lib/server";
 
 export default async function orders() {
   const location_id = await getLocationId();
 
-  const orders = await prisma.orders.findMany({
-    where: { location_id: location_id },
-  });
+  const orders = await getOrdersByLocationId(location_id);
+
   console.log(orders);
 
   const Items = orders.map((item) => item.cart);

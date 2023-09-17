@@ -20,7 +20,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className} suppressHydrationWarning>
+      <body
+        className={inter.className}
+        suppressHydrationWarning
+        style={{ background: "linear-gradient(to left, #232526, #414345)" }}>
         <Provider>
           <Theme>
             {/* <Box position={"absolute"} top={"0"} style={{ zIndex: 10 }}>

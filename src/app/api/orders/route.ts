@@ -11,14 +11,15 @@ export async function POST(req: NextRequest) {
     where: { user_id: user_id },
   });
   if (existCustomer) {
-    await prisma.customers.create({
-      data: { name: name, phone: phone, address: address, user_id: user_id },
+    await prisma.customers.update({
+      where: { user_id: user_id },
+      data: { name: name, phone: phone, address: address },
     });
   }
-  await prisma.customers.update({
-    where: { user_id: user_id },
-    data: { name: name, phone: phone, address: address },
+  await prisma.customers.create({
+    data: { name: name, phone: phone, address: address, user_id: user_id },
   });
+
   const createOrder = await prisma.orders.create({
     data: {
       location_id: location_id,

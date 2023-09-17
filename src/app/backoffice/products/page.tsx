@@ -13,7 +13,6 @@ import { locations_categories_products } from "@prisma/client";
 export default async function Products() {
   const location_id = cookies().get("selectedLocationId")?.value as string;
   const categories = await getCategoriesBySelectedLocation(location_id);
-
   const products = await getProducts(location_id);
 
   return (
