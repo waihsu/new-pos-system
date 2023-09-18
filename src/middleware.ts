@@ -22,9 +22,9 @@ export default withAuth(
 export const config = {
   matcher: [
     "/backoffice/:path*",
-    "/api/locations",
-    "/api/products",
-    "/api/categories",
-    "/api/orders",
+    // "/api/locations",
+    // "/api/products",
+    // "/api/categories",
+    // "/api/orders",
   ],
 };
