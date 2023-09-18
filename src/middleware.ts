@@ -8,15 +8,23 @@ export default withAuth(
   function middleware(req, option) {
     // console.log(req.nextUrl);
     const role = req.nextauth.token?.role;
-    if (role === "User") {
+    if (role !== "Admin") {
       return NextResponse.redirect(new URL("/", req.nextUrl));
     }
-  },
-  {
-    callbacks: {
-      authorized: ({ token }) => token?.role === "Admin",
-    },
   }
+  // {
+  //   callbacks: {
+  //     authorized: ({ token }) => token?.role === "Admin",
+  //   },
+  // }
 );
 
-export const config = { matcher: ["/backoffice/:path*", "/api/:path*"] };
+export const config = {
+  matcher: [
+    "/backoffice/:path*",
+    "/api/locations",
+    "/api/products",
+    "/api/categories",
+    "/api/orders",
+  ],
+};

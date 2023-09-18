@@ -16,6 +16,7 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/account/signin",
   },
+  secret: config.nextauth_secret,
   callbacks: {
     async signIn({ account, profile }) {
       if (account?.provider === "google") {

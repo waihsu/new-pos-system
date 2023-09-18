@@ -15,7 +15,7 @@ export default function ShopCard() {
   const getShops = async () => {
     const resp = await fetch(`${config.nextauth_url}/api/locations/${page}`);
     const data = await resp.json();
-    console.log(data);
+
     if (resp.ok) {
       setLocations(data);
     }
@@ -87,6 +87,7 @@ export default function ShopCard() {
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Stack>
           <Pagination
+            color="primary"
             count={locations?.length ? page + 1 : page}
             onChange={handleChange}
           />
