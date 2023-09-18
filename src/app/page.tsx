@@ -1,19 +1,17 @@
-import Image from "next/image";
-import styles from "./page.module.css";
-import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/options";
 import ShopCard from "@/components/ShopCard";
-import { getLocations } from "@/lib/server";
-import { Divider } from "@mui/material";
+import { Divider, Typography } from "@mui/material";
+import MainNav from "@/components/MainNav";
 
 export default async function Home() {
-  const locations = await getLocations();
   return (
-    <div style={{ paddingTop: 80 }}>
-      <h1>Shop List</h1>
-      <ShopCard locations={locations} />
-      <Divider />
-      <h1>Products List</h1>
+    <div>
+      <MainNav />
+      <Typography variant="h3" sx={{ textAlign: "center", mt: 16, mb: 3 }}>
+        Shop Lists
+      </Typography>
+      <ShopCard />
+      <Divider sx={{ my: 6 }} />
+      <h1 style={{ textAlign: "center" }}>Products List</h1>
     </div>
   );
 }

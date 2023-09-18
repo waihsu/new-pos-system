@@ -1,5 +1,6 @@
 import BackOfficeLayout from "@/components/BackOfficeLayout";
 import { prisma } from "@/lib";
+import { getOrderByOrderId } from "@/lib/server";
 import { Box, Typography } from "@mui/material";
 import { Card, Flex } from "@radix-ui/themes";
 import Image from "next/image";
@@ -7,9 +8,8 @@ import React from "react";
 
 export default async function Order({ params }: { params: any }) {
   const { id } = params;
-  const order = await prisma.orders.findFirst({
-    where: { id: id },
-  });
+
+  const order = await getOrderByOrderId(id);
 
   const productIds = order?.cart.map((item) => item.product_id);
   const products = await prisma.products.findMany({

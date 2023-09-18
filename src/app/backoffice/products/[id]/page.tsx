@@ -21,7 +21,7 @@ export default async function SingleProduct({ params }: { params: any }) {
   const user = session?.user as users;
   const user_id = user.id as string;
 
-  const locations = await getLocationsByUserId(user_id);
+  // const locations = await getLocationsByUserId(user_id);
 
   const id = params.id;
   const product = (await getSingleProduct(id)) as products;
@@ -34,9 +34,9 @@ export default async function SingleProduct({ params }: { params: any }) {
       },
     });
 
-  const categoryIds = locations_categories_products.map(
-    (item) => item.category_id
-  );
+  // const categoryIds = locations_categories_products.map(
+  //   (item) => item.category_id
+  // );
   const categories = await prisma.categories.findMany({
     where: { location_id: locations_id },
   });

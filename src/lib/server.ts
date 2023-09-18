@@ -3,9 +3,38 @@ import { prisma } from ".";
 import { supabase } from "./supabase";
 import QRCode from "qrcode";
 
+//locations
 export const getLocations = async () => {
   const locations = await prisma.locations.findMany();
   return locations;
+};
+
+export const getLocationByLocationId = async (location_id: string) => {
+  const location = await prisma.locations.findUnique({
+    where: { id: location_id },
+  });
+  return location;
+};
+
+export const getLocationsByUserId = async (user_id: string) => {
+  const locations = await prisma.locations.findMany({
+    select: {
+      id: true,
+      name: true,
+      address: true,
+      user_id: true,
+    },
+    where: {
+      user_id: user_id,
+    },
+  });
+  return locations;
+};
+
+//products
+export const getSingleProduct = async (id: string) => {
+  const product = await prisma.products.findUnique({ where: { id } });
+  return product;
 };
 
 export const getProducts = async (location_id: string) => {
@@ -24,19 +53,20 @@ export const getProducts = async (location_id: string) => {
   return products;
 };
 
-export const getLocationsByUserId = async (user_id: string) => {
-  const locations = await prisma.locations.findMany({
-    select: {
-      id: true,
-      name: true,
-      address: true,
-      user_id: true,
-    },
-    where: {
-      user_id: user_id,
-    },
+//orders
+
+export const getOrderByOrderId = async (order_id: string) => {
+  const order = await prisma.orders.findFirst({
+    where: { id: order_id },
   });
-  return locations;
+  return order;
+};
+
+export const getOrdersByLocationId = async (location_id: string) => {
+  const orders = await prisma.orders.findMany({
+    where: { location_id: location_id },
+  });
+  return orders;
 };
 
 export const getCategoriesBySelectedLocation = async (locations_id: string) => {
@@ -44,11 +74,6 @@ export const getCategoriesBySelectedLocation = async (locations_id: string) => {
     where: { location_id: locations_id },
   });
   return categoreisBylocation;
-};
-
-export const getSingleProduct = async (id: string) => {
-  const product = await prisma.products.findUnique({ where: { id } });
-  return product;
 };
 
 export const generateRandomNumber = (min: number, max: number) => {

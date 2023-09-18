@@ -17,7 +17,7 @@ import CartDrawer from "./CartDrawer";
 import { styled } from "@mui/material/styles";
 import { FaShoppingCart } from "react-icons/fa";
 import { Cart, getCart } from "@/app/actions";
-import { signOut, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { users } from "@prisma/client";
 import Link from "next/link";
 
@@ -109,13 +109,23 @@ export default function Navbar({
             <MenuItem onClick={() => setProfileOpen(!profileOpen)}>
               <Link href="/profile">Profile</Link>
             </MenuItem>
-            <MenuItem
-              onClick={() => {
-                signOut();
-                setProfileOpen(!profileOpen);
-              }}>
-              Log Out
-            </MenuItem>
+            {user ? (
+              <MenuItem
+                onClick={() => {
+                  signOut();
+                  setProfileOpen(!profileOpen);
+                }}>
+                Log Out
+              </MenuItem>
+            ) : (
+              <MenuItem
+                onClick={() => {
+                  signIn();
+                  setProfileOpen(!profileOpen);
+                }}>
+                Sign In
+              </MenuItem>
+            )}
           </Menu>
         </div>
 
