@@ -61,7 +61,7 @@ export async function addToCart({
       const sameCart = data.filter((item) => item.id === id)[0];
       const different = data.filter((item) => item.id !== id);
       // console.log("differ", different);
-      const newQuantityCart = { ...sameCart, quantity: Number(quantity) };
+      const newQuantityCart = { ...sameCart, quantity: quantity };
       // console.log("sameCart", sameCart, "newQuantity", newQuantityCart);
       cookies().set("cart", JSON.stringify([...different, newQuantityCart]));
     } else {
