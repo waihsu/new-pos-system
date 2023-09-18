@@ -14,9 +14,14 @@ export default async function Dashboard() {
   const totalOrders = await prisma.orders.count({
     where: { location_id: location_id },
   });
-  const todayOrders = await prisma.orders.count({
-    where: { location_id: location_id, createdAt: new Date() },
-  });
+  // const todayOrders = await prisma.orders.count({
+  //   where: {
+  //     location_id: location_id,
+  //     createdAt: new Date().getUTCDate().toString(),
+  //   },
+  // });
+
+  console.log(new Date().getUTCMonth());
 
   return (
     <BackOfficeLayout title="Dashboard">
@@ -45,7 +50,7 @@ export default async function Dashboard() {
           <Typography>Today Orders</Typography>
           <Typography
             sx={{ textAlign: "center", fontSize: 24, fontWeight: 800 }}>
-            {todayOrders}
+            {/* {todayOrders} */}
           </Typography>
         </Card>
       </Box>

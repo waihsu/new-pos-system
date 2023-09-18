@@ -38,12 +38,24 @@ const sidebarItems = [
   },
   {
     id: 6,
+    label: "Addon-Categories",
+    icon: <AiFillSetting />,
+    route: "/backoffice/addon-categories",
+  },
+  {
+    id: 7,
+    label: "Addons",
+    icon: <AiFillSetting />,
+    route: "/backoffice/addons",
+  },
+  {
+    id: 8,
     label: "Site Settings",
     icon: <AiFillSetting />,
     route: "/backoffice/site-settings",
   },
   {
-    id: 7,
+    id: 9,
     label: "Shops",
     icon: <AiFillSetting />,
     route: "/backoffice/locations",

@@ -14,6 +14,7 @@ export default async function Profile() {
   const customers = await prisma.customers.findFirst({
     where: { user_id: user.id as string },
   });
+  if (!session) return null;
   return (
     <Box sx={{ mx: "auto" }}>
       <MainNav />
