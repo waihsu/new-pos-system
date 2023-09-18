@@ -60,6 +60,7 @@ model orders {
   status      String
   total       String
   user_id     String       @db.ObjectId
+  createdAt   DateTime     @default(now())
 }
 
 model products {

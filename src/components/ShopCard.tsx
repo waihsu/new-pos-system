@@ -8,7 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
-export default function ShopCard() {
+export default function ShopCard({ count }: { count: number }) {
   const [page, setPage] = useState(1);
   const [locations, setLocations] = useState<locations[]>();
 
@@ -88,7 +88,7 @@ export default function ShopCard() {
         <Stack>
           <Pagination
             color="primary"
-            count={locations?.length ? page + 1 : page}
+            count={count / 6 + 1}
             onChange={handleChange}
           />
         </Stack>

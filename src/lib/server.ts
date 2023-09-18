@@ -9,6 +9,13 @@ export const getLocations = async () => {
   return locations;
 };
 
+export const getLCPbySelectedLocationId = async (location_id: string) => {
+  const LCP = await prisma.locations_categories_products.findMany({
+    where: { location_id },
+  });
+  return LCP;
+};
+
 export const getLocationByLocationId = async (location_id: string) => {
   const location = await prisma.locations.findUnique({
     where: { id: location_id },
