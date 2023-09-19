@@ -72,14 +72,6 @@ export default function Navbar({
       <Typography sx={{ color: "yellowgreen" }} variant="h4">
         {name}
       </Typography>
-      <Box>
-        <TextField.Root>
-          <TextField.Slot>
-            <MagnifyingGlassIcon height="16" width="16" />
-          </TextField.Slot>
-          <TextField.Input placeholder="Search the docs…" />
-        </TextField.Root>
-      </Box>
 
       <Box sx={{ display: "flex", gap: 2 }}>
         <div>

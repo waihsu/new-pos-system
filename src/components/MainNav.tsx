@@ -2,8 +2,11 @@ import { Box, Typography } from "@mui/material";
 import Link from "next/link";
 import React from "react";
 import ProfileAvatar from "./ProfileAvatar";
+import { prisma } from "@/lib";
+import ShopSearchBar from "./ShopSearchBar";
 
-export default function MainNav() {
+export default async function MainNav() {
+  const locations = await prisma.locations.findMany();
   return (
     <Box
       sx={{
@@ -24,6 +27,7 @@ export default function MainNav() {
           All In One
         </Typography>
       </Link>
+      <ShopSearchBar locations={locations} />
       <ProfileAvatar />
     </Box>
   );
