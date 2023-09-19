@@ -1,6 +1,7 @@
 "use client";
 import { Autocomplete, TextField } from "@mui/material";
 import { locations } from "@prisma/client";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 export default function ShopSearchBar({
@@ -8,6 +9,7 @@ export default function ShopSearchBar({
 }: {
   locations: locations[];
 }) {
+  const router = useRouter();
   return (
     <Autocomplete
       sx={{ width: 300 }}
@@ -16,9 +18,7 @@ export default function ShopSearchBar({
       options={locations}
       getOptionLabel={(locations) => locations.name}
       onChange={(event, value) => {
-        if (value) {
-          window.location.href = `/${value.name}/${value.id}`;
-        }
+        router.push(`/${value.name}/${value.id}`);
       }}
       renderInput={(params) => (
         <TextField
