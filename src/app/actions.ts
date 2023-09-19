@@ -1,6 +1,6 @@
 "use server";
 
-import { products } from "@prisma/client";
+import { addons, products } from "@prisma/client";
 import { cookies } from "next/headers";
 
 export interface Cart {
@@ -10,6 +10,7 @@ export interface Cart {
   name: string;
   price: string;
   quantity: string;
+  selectedAddons: addons[];
 }
 
 export async function addShopId(location_id: string) {
@@ -44,6 +45,7 @@ export async function addToCart({
   price,
   asset_url,
   quantity,
+  selectedAddons,
 }: Cart) {
   const existCart = cookies().get("cart");
   // if (data.map((item) => item.id === id)) {
@@ -70,14 +72,24 @@ export async function addToCart({
         "cart",
         JSON.stringify([
           ...data,
-          { id, name, descritption, price, asset_url, quantity },
+          {
+            id,
+            name,
+            descritption,
+            price,
+            asset_url,
+            quantity,
+            selectedAddons,
+          },
         ])
       );
     }
   } else {
     cookies().set(
       "cart",
-      JSON.stringify([{ id, name, descritption, price, asset_url, quantity }])
+      JSON.stringify([
+        { id, name, descritption, price, asset_url, quantity, selectedAddons },
+      ])
     );
   }
 }

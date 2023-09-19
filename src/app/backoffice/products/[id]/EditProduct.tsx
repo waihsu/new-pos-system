@@ -2,16 +2,13 @@
 import DeleteDialog from "@/components/DeleteDialog";
 import FileDropZone from "@/components/FileDropZone";
 import { config } from "@/config/config";
-import { prisma } from "@/lib";
 import { uploadImage } from "@/lib/server";
 import { LoadingButton } from "@mui/lab";
 import { Autocomplete, Box, TextField } from "@mui/material";
 import { categories, products } from "@prisma/client";
 import { Button, Flex } from "@radix-ui/themes";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { AiFillCloseCircle } from "react-icons/ai";
 
 export default function EditProduct({
   id,
@@ -52,10 +49,6 @@ export default function EditProduct({
       return alert("please upload photo");
     }
     const asset_url = await uploadImage(productImage as File);
-
-    // if (asset_url.length) {
-    //   setUpdateProduct({ ...updateProduct, asset_url });
-    // }
     const resp = await fetch(`${config.nextauth_url}/api/products`, {
       method: "PUT",
       headers: {

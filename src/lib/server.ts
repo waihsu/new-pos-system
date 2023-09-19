@@ -3,6 +3,22 @@ import { prisma } from ".";
 import { supabase } from "./supabase";
 import QRCode from "qrcode";
 
+//AddonCategories
+export const getAddonCategories = async (location_id: string) => {
+  const LCP = await prisma.locations_categories_products.findMany({
+    where: { location_id: location_id },
+  });
+  const productIds = LCP.map((item) => item.product_id);
+
+  const validProducts = await prisma.products.findMany({
+    where: { id: { in: productIds } },
+  });
+  const addonCategories = await prisma.addon_categories.findMany({
+    where: { product_id: { hasSome: productIds } },
+  });
+  return addonCategories;
+};
+
 //locations
 export const getLocations = async () => {
   const locations = await prisma.locations.findMany();

@@ -7,6 +7,8 @@ import { FaShoppingCart } from "react-icons/fa";
 import { FaUserAlt } from "react-icons/fa";
 import { BiSolidCategoryAlt } from "react-icons/bi";
 import { AiFillSetting } from "react-icons/ai";
+import { MdClass } from "react-icons/md";
+import { FiUnderline } from "react-icons/fi";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
@@ -38,12 +40,24 @@ const sidebarItems = [
   },
   {
     id: 6,
+    label: "Addon-Categories",
+    icon: <MdClass />,
+    route: "/backoffice/addon-categories",
+  },
+  {
+    id: 7,
+    label: "Addons",
+    icon: <FiUnderline />,
+    route: "/backoffice/addons",
+  },
+  {
+    id: 8,
     label: "Site Settings",
     icon: <AiFillSetting />,
     route: "/backoffice/site-settings",
   },
   {
-    id: 7,
+    id: 9,
     label: "Shops",
     icon: <AiFillSetting />,
     route: "/backoffice/locations",

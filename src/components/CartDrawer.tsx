@@ -9,7 +9,7 @@ import {
 import { config } from "@/config/config";
 import { Box, Button, Drawer, TextField } from "@mui/material";
 import { customers, orders, users } from "@prisma/client";
-import { Avatar, Card, Flex, Text } from "@radix-ui/themes";
+import { Card, Flex, Text } from "@radix-ui/themes";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -19,6 +19,7 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepButton from "@mui/material/StepButton";
 import Typography from "@mui/material/Typography";
+import { LoadingButton } from "@mui/lab";
 
 const steps = ["Order Items", "Info", "Pay and Confirm"];
 
@@ -31,6 +32,7 @@ interface Props {
 interface NewCart {
   product_id: string;
   quantity: string;
+  addon_id: string[];
 }
 
 interface Order {
@@ -68,9 +70,6 @@ export default function CartDrawer({ open, setOpen, qrcode }: Props) {
     getCarts();
     getLocationId();
   }, [open]);
-  // console.log(carts);
-  // console.log(locationId);
-
   const total = carts
     ?.map((item) => Number(item.quantity) * Number(item.price))
     .reduce((pre, curr) => pre + curr, 0) as number;
@@ -78,6 +77,7 @@ export default function CartDrawer({ open, setOpen, qrcode }: Props) {
   const newCarts = carts?.map((item) => ({
     product_id: item.id,
     quantity: item.quantity as string,
+    addon_id: item.selectedAddons.map((addon) => addon.id),
   })) as NewCart[];
   // console.log(newCarts);
 
@@ -89,6 +89,7 @@ export default function CartDrawer({ open, setOpen, qrcode }: Props) {
     location_id: locationId as string,
   });
 
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>();
   const [message, setMessage] = useState<string>();
   const [customer, setCustomer] = useState({
@@ -117,12 +118,10 @@ export default function CartDrawer({ open, setOpen, qrcode }: Props) {
     });
 
     if (resp.ok) {
-      setMessage("Success");
-      await delectcart();
+      setLoading(false);
       router.refresh();
     } else {
-      setError("Please Retry");
-      await delectcart();
+      setLoading(false);
       router.refresh();
     }
   };
@@ -272,13 +271,14 @@ export default function CartDrawer({ open, setOpen, qrcode }: Props) {
             </Button>
             <Box sx={{ flex: "1 1 auto" }} />
             {activeStep === 2 ? (
-              <Button
+              <LoadingButton
+                loading={loading}
                 disabled={carts?.length ? false : true}
                 sx={{ mx: "auto" }}
                 variant="contained"
                 onClick={handleClick}>
                 Confirm : {carts ? total : 0} ks
-              </Button>
+              </LoadingButton>
             ) : (
               <Button onClick={handleNext} sx={{ mr: 1 }}>
                 Next

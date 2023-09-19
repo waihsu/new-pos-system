@@ -12,7 +12,14 @@ export default async function page({ params }: { params: any }) {
   const product = (await prisma.products.findFirst({
     where: { id: productId },
   })) as products;
-  // console.log(product);
+
+  const addonCategories = await prisma.addon_categories.findMany({
+    where: { product_id: { has: productId } },
+  });
+  const addonCategoryId = addonCategories.map((item) => item.id);
+  const addons = await prisma.addons.findMany({
+    where: { addon_category_id: { in: addonCategoryId } },
+  });
 
   return (
     <div>
@@ -20,7 +27,12 @@ export default async function page({ params }: { params: any }) {
         sx={{
           minHeight: "100vh",
         }}>
-        <AddToCart locationId={locationId} product={product} />
+        <AddToCart
+          addonCategories={addonCategories}
+          addons={addons}
+          locationId={locationId}
+          product={product}
+        />
       </Box>
     </div>
   );

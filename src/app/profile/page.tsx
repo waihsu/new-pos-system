@@ -11,9 +11,12 @@ import BackOfficeLayout from "@/components/BackOfficeLayout";
 export default async function Profile() {
   const session = await getServerSession(authOptions);
   const user = session?.user as users;
+
+  if (!user) return <p>You must be logged in</p>;
   const customers = await prisma.customers.findFirst({
     where: { user_id: user.id as string },
   });
+
   return (
     <Box sx={{ mx: "auto" }}>
       <MainNav />

@@ -5,8 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { decode } from "base64-arraybuffer";
 
 export async function POST(req: NextRequest) {
-  const { newLocation } = await req.json();
-  const { name, address, user_id, phone, asset_url } = newLocation;
+  const { name, address, user_id, phone, asset_url } = await req.json();
 
   const qrCodeBuffer = await generateQR(phone);
   const image = Buffer.from(
