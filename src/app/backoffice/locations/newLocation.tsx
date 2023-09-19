@@ -17,6 +17,7 @@ import { LoadingButton } from "@mui/lab";
 import { config } from "@/config/config";
 import FileDropZone from "@/components/FileDropZone";
 import { uploadImage } from "@/lib/server";
+import { useLocation } from "@/hooks/useLocations";
 
 export default function NewLocation({
   locations,
@@ -27,9 +28,8 @@ export default function NewLocation({
   locations_id: string;
   user_id: string;
 }) {
-  const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+
   const [newLocation, setNewLocation] = useState({
     name: "",
     address: "",
@@ -55,25 +55,7 @@ export default function NewLocation({
     setLocation(locations_id);
   };
 
-  const createLocation = async () => {
-    setLoading(true);
-
-    const image_url = await uploadImage(shopImage as File);
-    newLocation.asset_url = image_url;
-    const resp = await fetch(`${config.nextauth_url}/api/locations`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ newLocation }),
-    });
-    if (resp.ok) {
-      setLoading(false);
-      setOpen(false);
-      router.refresh();
-    }
-    setLoading(false);
-  };
+  const { createLocation, loading } = useLocation();
 
   return (
     <BackOfficeLayout
@@ -122,7 +104,14 @@ export default function NewLocation({
           <FileDropZone selectedFile={selectFile} />
         </DialogContent>
         <DialogActions>
-          <LoadingButton loading={loading} onClick={createLocation}>
+          <LoadingButton
+            loading={loading}
+            onClick={async () => {
+              const image_url = await uploadImage(shopImage as File);
+              newLocation.asset_url = image_url;
+              createLocation(newLocation);
+              setOpen(false);
+            }}>
             Create
           </LoadingButton>
         </DialogActions>

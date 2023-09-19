@@ -27,6 +27,7 @@ export async function POST(req: NextRequest) {
       total: String(total),
       status: status,
       cart: cart,
+      createdAt: new Date(),
     },
   });
   return NextResponse.json({ createOrder });

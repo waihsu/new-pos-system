@@ -8,13 +8,14 @@ datasource db {
 }
 
 type OrdersCart {
-  product_id String @db.ObjectId
+  addon_id   String[] @db.ObjectId
+  product_id String   @db.ObjectId
   quantity   String
 }
 
 model addon_categories {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  is_required Boolean  @default(false)
+  is_required Boolean
   name        String
   product_id  String[]  @db.ObjectId
 }
@@ -23,7 +24,7 @@ model addons {
   id                String @id @default(auto()) @map("_id") @db.ObjectId
   addon_category_id String @db.ObjectId
   name              String
-  price             String?
+  price             String
 }
 
 model categories {
@@ -42,7 +43,7 @@ model customers {
   address String
   name    String
   phone   String
-  user_id String @db.ObjectId
+  user_id String  @unique @db.ObjectId
 }
 
 model locations {

@@ -12,7 +12,6 @@ export default async function AddonCategories() {
   const location_id = await getLocationId();
   const addonCategories = await getAddonCategories(location_id);
 
-  console.log(addonCategories);
   return (
     <BackOfficeLayout
       title="Addon Categories"

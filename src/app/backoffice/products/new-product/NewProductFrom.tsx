@@ -1,6 +1,7 @@
 "use client";
 import FileDropZone from "@/components/FileDropZone";
 import { config } from "@/config/config";
+import { useProducts } from "@/hooks/useProducts";
 import { prisma } from "@/lib";
 import { uploadImage } from "@/lib/server";
 import { LoadingButton } from "@mui/lab";
@@ -28,34 +29,14 @@ export default function NewProductFrom({
     categories_id: [] as string[],
     locations_id: locations_id,
   });
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string>();
+
   const [productImage, setProductImage] = useState<File>();
   const selectedFile = (files: File[]) => {
     setProductImage(files[0]);
   };
   // console.log(productImage);
 
-  const handleClick = async () => {
-    setIsLoading(true);
-    const image_url = await uploadImage(productImage as File);
-
-    newProduct.asset_url = image_url;
-    const resp = await fetch(`${config.nextauth_url}/api/products`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ newProduct }),
-    });
-    if (resp.ok) {
-      setIsLoading(false);
-      router.refresh();
-      router.push("/backoffice/products");
-    } else {
-      setIsLoading(false);
-    }
-  };
+  const { createProduct, loading } = useProducts();
 
   return (
     <Box>
@@ -116,7 +97,13 @@ export default function NewProductFrom({
           size="small"
           placeholder="stock"
         />
-        <LoadingButton loading={isLoading} onClick={handleClick}>
+        <LoadingButton
+          loading={loading}
+          onClick={async () => {
+            const image_url = await uploadImage(productImage as File);
+            newProduct.asset_url = image_url;
+            createProduct(newProduct);
+          }}>
           Create
         </LoadingButton>
       </Flex>

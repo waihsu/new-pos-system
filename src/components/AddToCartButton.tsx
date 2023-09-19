@@ -1,15 +1,19 @@
 import { Cart, addShopId, addToCart, getCart } from "@/app/actions";
-import { products } from "@prisma/client";
+import { addons, products } from "@prisma/client";
 import { Button, Flex } from "@radix-ui/themes";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 export default function AddToCartButton({
   product,
   locationId,
+  selectedAddons,
 }: {
   product: products;
   locationId: string;
+  selectedAddons: addons[];
 }) {
+  const router = useRouter();
   const [quantity, setQuantity] = useState<number>(1);
   const [added, setAdded] = useState(false);
 
@@ -62,8 +66,10 @@ export default function AddToCartButton({
       descritption: product.description,
       price: product.price,
       quantity: String(quantity),
+      selectedAddons: selectedAddons,
     });
     setAdded(true);
+    router.refresh();
   };
   return (
     <Flex>
