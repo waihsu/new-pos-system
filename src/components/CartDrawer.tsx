@@ -100,6 +100,7 @@ export default function CartDrawer({ open, setOpen, qrcode }: Props) {
 
   const handleClick = async () => {
     if (!user_id) return alert("You must be login");
+    setLoading(true);
     const resp = await fetch(`${config.nextauth_url}/api/orders`, {
       method: "POST",
       headers: {
