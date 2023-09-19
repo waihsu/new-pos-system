@@ -43,12 +43,6 @@ export default async function page({ params }: { params: string }) {
           alignItems: "center",
           mt: 8,
         }}>
-        {/* <Image
-          src={locations?.asset_url}
-          alt="banner"
-          width={800}
-          height={200}
-        /> */}
         <Typography
           sx={{
             fontSize: { xs: 40, md: 100 },
