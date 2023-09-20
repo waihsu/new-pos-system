@@ -30,19 +30,20 @@ export default async function page() {
       />
       <Flex gap={"3"} direction={"column"} mt={"4"}>
         <Text size={"5"}>My Shops</Text>
-        {locations.map((location) => (
-          <Card key={location.id} style={{ maxWidth: 400 }}>
-            <Flex justify={"between"} align={"center"}>
-              <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <Text size={"3"} weight={"bold"}>
-                  {location.name}
-                </Text>
-                <Text size={"2"}>{location.address}</Text>
-              </Box>
-              <DeleteShop location_id={location.id} />
-            </Flex>
-          </Card>
-        ))}
+        {locations &&
+          locations.map((location) => (
+            <Card key={location.id} style={{ maxWidth: 400 }}>
+              <Flex justify={"between"} align={"center"}>
+                <Box sx={{ display: "flex", flexDirection: "column" }}>
+                  <Text size={"3"} weight={"bold"}>
+                    {location.name}
+                  </Text>
+                  <Text size={"2"}>{location.address}</Text>
+                </Box>
+                <DeleteShop location_id={location.id} />
+              </Flex>
+            </Card>
+          ))}
       </Flex>
     </Box>
   );

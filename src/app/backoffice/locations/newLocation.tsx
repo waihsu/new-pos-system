@@ -43,7 +43,7 @@ export default function NewLocation({
   };
   useEffect(() => {
     if (!locations_id) {
-      setLocation(locations[0].id);
+      setLocation(locations[0]?.id);
       // router.refresh();
     }
   }, []);
